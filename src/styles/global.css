@@ -79,6 +79,57 @@ p{margin:0}
 .d-steps b{display:block;font:400 26px/1.15 'Fraunces Variable',serif;margin:4px 0 6px}
 .d-steps p{font-size:17px!important;color:#d3cec6!important}
 .d-text .note{font-size:15px!important;color:#b8b2a8!important;border-left:2px solid rgba(255,208,107,.5);padding-left:14px;margin-bottom:22px}
+/* pricing: Grace first, then plans */
+.d-pricing{max-width:none}
+.d-grace{max-width:820px}
+.d-pricing .lede{font:300 clamp(21px,2vw,26px)/1.5 'Fraunces Variable',serif;color:#f2efe9;margin-bottom:18px}
+.d-grace-cta{display:flex;align-items:center;gap:14px 20px;flex-wrap:wrap}
+.d-grace-cta .ok{display:inline-flex;align-items:center;gap:10px;font-size:15px;color:#cfe9d6}
+.d-grace-cta .dot{width:8px;height:8px;border-radius:50%;background:#4ade80;box-shadow:0 0 10px #4ade80}
+.d-plans-head{margin-top:18vh;max-width:820px}
+.d-plans-head h2{font-size:clamp(40px,5vw,70px);margin-bottom:14px}
+.d-try{max-width:1100px;box-sizing:border-box;margin-top:34px;padding:28px 30px;border-radius:24px;border:1px solid rgba(255,208,107,.4);background:linear-gradient(135deg,rgba(255,208,107,.12),rgba(255,208,107,.02) 60%),rgba(13,13,17,.88)}
+.d-try b{display:block;font:400 clamp(26px,3vw,38px)/1.12 'Fraunces Variable',serif;letter-spacing:-.01em;color:#ffd9a8;margin-bottom:12px}
+.d-pricing .d-try p{font-size:17px;color:#e2ddd5;max-width:760px}
+.d-try ul{list-style:none;padding:0;margin:18px 0 0;display:flex;flex-wrap:wrap;gap:8px}
+.d-try li{padding:8px 14px;border-radius:99px;border:1px solid rgba(255,208,107,.35);background:rgba(255,208,107,.07);font-size:14px}
+.d-try li:before{content:'✓';color:#ffd06b;margin-right:8px}
+.d-plans{display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(11,auto);gap:0 22px;max-width:1100px;margin-top:56px}
+.d-plan{grid-row:span 11;display:grid;grid-template-rows:subgrid;position:relative;padding:34px 26px 26px;border-radius:24px;background:rgba(13,13,17,.88);border:1px solid rgba(255,255,255,.08);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);transition:opacity .9s ease,border-color 1.2s,box-shadow 1.4s}
+.d-plan.pop.lit{border-color:rgba(255,208,107,.6);box-shadow:0 0 80px -14px rgba(255,208,107,.4)}
+.d-plan .badge{position:absolute;top:-13px;left:26px;background:#ffd06b;color:#1a1208;font-size:12px;font-weight:700;letter-spacing:.08em;padding:6px 12px;border-radius:99px;text-transform:uppercase}
+.d-plan h3{font-size:34px;line-height:1}
+.d-plan.pop h3{color:#ffd9a8}
+.d-plan .price{display:flex;align-items:baseline;gap:6px;margin:16px 0 10px}
+.d-plan .price b{font:300 60px/1 'Fraunces Variable',serif;letter-spacing:-.03em}
+.d-plan .cur{font-size:15px;font-weight:600;letter-spacing:.08em;color:#cfc8bd}
+.d-plan .per{font-size:15px;color:#9f988e}
+.d-pricing .d-plan .when{font-size:14px;line-height:1.45;color:#cfe9d6;padding-bottom:18px}
+.d-plan .r{display:flex;gap:10px;align-items:baseline;padding:12px 0;border-top:1px solid rgba(255,255,255,.07);font-size:15px;line-height:1.45;color:#e2ddd5}
+.d-plan .r.val{flex-direction:column;gap:3px}
+.d-plan .r small{font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:#9f988e}
+.d-plan .ic{flex:none;width:18px;text-align:center;color:#ffd06b;font-weight:700}
+.d-plan .r.no{color:#6f6a63}.d-plan .r.no .ic{color:#5a5650}
+.d-plan .btn{align-self:end;text-align:center;margin-top:20px}
+.d-plan .btn.primary{border:1px solid #ffd06b}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+.d-extras{max-width:1100px;box-sizing:border-box;margin-top:44px}
+.d-extras h3{font:600 13px 'Inter Variable',sans-serif;letter-spacing:.2em;text-transform:uppercase;color:#ffd9a8;margin-bottom:16px}
+.d-pricing .d-extras>p{font-size:15px;color:#b8b2a8;margin-top:14px}
+.d-extras ul{list-style:none;padding:0;margin:0;display:grid;grid-template-columns:1fr 1fr;gap:0 40px}
+.d-extras li{display:flex;justify-content:space-between;align-items:baseline;gap:16px;padding:13px 0;border-bottom:1px solid rgba(255,255,255,.08);font-size:16px;color:#e2ddd5}
+.d-extras b{font-weight:600;font-size:15px;color:#ffd9a8;white-space:nowrap}
+.d-letter .pick{display:flex;align-items:center;gap:6px;margin:14px 0 0;font-size:14px;color:#6b635b}
+.d-letter .pick[hidden]{display:none}
+.d-letter .pick b{font:700 22px 'Caveat Variable',cursive;color:#a3361f;margin-left:2px}
+.d-letter .pick button{background:none;color:#6b635b;padding:2px 8px;font-size:18px;line-height:1;border-radius:99px}
+.d-letter .pick button:hover{background:rgba(0,0,0,.06)}
+@media (max-width:1000px){
+ .d-plans{grid-template-columns:1fr;grid-template-rows:none;gap:40px;max-width:560px}
+ .d-plan{grid-row:auto;display:flex;flex-direction:column}
+ .d-plan .btn{align-self:stretch}
+ .d-extras ul{grid-template-columns:1fr}
+}
 .d-hero .promise{margin-top:22px;font-size:15px;color:#cfc8bd;max-width:460px}
 /* work polaroids */
 .d-work{padding:10vh 5vw 6vh 16vw}
@@ -222,6 +273,8 @@ p{margin:0}
  .d-steps b{font-size:22px;margin-top:0}
  .d-card{padding:28px 22px}
  .d-text,.d-work{padding-left:14vw;padding-right:6vw}
+ .d-try{padding:22px 20px}.d-try li{border-radius:14px}.d-plan{padding:32px 20px 22px}.d-plan .price b{font-size:52px}
+ .d-extras li{flex-direction:column;gap:2px}
  .d-pol{flex-basis:230px}.d-pol .ph{height:140px}.d-pol b{font-size:21px}
  .d-strip{gap:16px}
  .d-about,.d-game,.d-reviews{padding-left:14vw;padding-right:6vw}
@@ -248,3 +301,69 @@ p{margin:0}
 @media (prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
 
 .d-portrait .ph{padding:0;overflow:hidden}.d-portrait .ph img{display:block;width:100%;height:100%;object-fit:cover;object-position:50% 30%}
+/* pricing page (no beam: everything is lit from the start) */
+.pricing-page{padding-top:130px;max-width:none}
+.pricing-page .back{display:inline-block;margin-bottom:30px;color:#ffd06b;text-decoration:none;font-size:15px}
+.pricing-page .d-plans-head{margin-top:0}
+.pricing-page .d-plans-head h1{font-size:clamp(40px,5vw,70px);line-height:1;margin:0 0 14px}
+.pricing-page .note a{color:#ffd06b}
+.pricing-page .d-plan.pop{border-color:rgba(255,208,107,.6);box-shadow:0 0 80px -14px rgba(255,208,107,.4)}
+.d-plans-link{margin-top:56px;max-width:820px;display:flex;align-items:center;flex-wrap:wrap;gap:14px 22px}
+.d-pricing .d-plans-link p{margin:0;font-size:17px;color:#e2ddd5}
+@media (max-width:820px){.pricing-page{padding:110px 6vw 8vh}}
+.pricing-page{padding-left:7vw;padding-right:7vw}
+.pricing-page .d-plans{grid-template-columns:repeat(4,1fr);max-width:1320px;gap:0 18px}
+.pricing-page .d-try,.pricing-page .d-extras{max-width:1320px}
+.d-plan.grace{border-color:rgba(74,222,128,.45);box-shadow:0 0 80px -16px rgba(74,222,128,.3)}
+.d-plan.grace h3,.d-plan.grace .price b{color:#bdf5cf}
+.d-plan.grace .price{flex-wrap:wrap}
+@media (min-width:1001px) and (max-width:1279px){.pricing-page .d-plans{grid-template-columns:repeat(2,1fr);grid-template-rows:repeat(22,auto);gap:0 22px;max-width:900px}.pricing-page .d-plan:nth-child(n+3){margin-top:40px}}
+@media (max-width:1000px){.pricing-page .d-plans{grid-template-columns:1fr;grid-template-rows:none}}
+/* pricing page: one centred column, change levels as a quiet footnote under the plans */
+.pricing-page>*{max-width:1320px;margin-left:auto;margin-right:auto}
+.pricing-page .back{display:block}
+.pricing-page .d-plans-head{text-align:center}
+.pricing-page .d-plans-head p{max-width:760px;margin:0 auto}
+.pricing-page .d-try{max-width:900px;text-align:center}
+.pricing-page .d-try p{margin:0 auto}
+.pricing-page .d-try ul{justify-content:center}
+.pricing-page .star{color:#ffd06b;text-decoration:none;margin-left:2px}
+.d-fn{box-sizing:border-box;margin-top:26px;padding:0 4px;scroll-margin-top:110px}
+.pricing-page .d-fn p,.d-fn dd{font-size:14px;line-height:1.55;color:#b8b2a8;margin:0}
+.d-fn .star{margin:0 3px 0 0}
+.d-fn dl{margin:8px 0;display:grid;grid-template-columns:repeat(3,1fr);gap:6px 28px}
+.d-fn dt{display:inline;font-size:14px;font-weight:600;color:#e2ddd5;margin-right:6px}
+.d-fn dd{display:inline}
+@media (max-width:1000px){.pricing-page .d-plans,.pricing-page .d-fn{max-width:560px}.pricing-page .d-plans{gap:40px}.d-fn dl{grid-template-columns:1fr}.pricing-page .d-try li{text-align:left}}
+@media (min-width:1001px) and (max-width:1279px){.pricing-page .d-fn{max-width:900px}}
+/* pricing: subtle lift on hover (mouse only) */
+@media (hover:hover){
+ .pricing-page .d-plan{transition:transform .35s ease,border-color .35s,box-shadow .35s}
+ .pricing-page .d-plan:hover{transform:translateY(-4px);border-color:rgba(255,255,255,.22);box-shadow:0 18px 50px -20px rgba(0,0,0,.8)}
+ .pricing-page .d-plan.grace:hover{border-color:rgba(74,222,128,.75);box-shadow:0 0 90px -12px rgba(74,222,128,.4)}
+ .pricing-page .d-plan.pop:hover{border-color:rgba(255,208,107,.85);box-shadow:0 0 90px -12px rgba(255,208,107,.5)}
+}
+/* pricing on phones: shorter cards (hide "not included" rows), tighter spacing */
+@media (max-width:600px){
+ .pricing-page{padding:96px 18px 7vh}
+ .pricing-page .d-plans-head h1{font-size:38px}
+ .pricing-page .d-try{padding:20px 18px;margin-top:22px}
+ .pricing-page .d-try b{font-size:23px}
+ .pricing-page .d-try p{font-size:15px}
+ .pricing-page .d-plans{gap:26px;margin-top:36px}
+ .pricing-page .d-plan{padding:26px 20px 20px}
+ .pricing-page .d-plan .r.no{display:none}
+ .pricing-page .d-plan .r{padding:9px 0;font-size:14.5px}
+ .pricing-page .d-plan .price{margin:10px 0 6px}
+ .pricing-page .d-plan .price b{font-size:46px}
+ .pricing-page .d-extras li{flex-direction:row;justify-content:space-between;gap:12px;font-size:15px}
+}
+/* pricing: each tier has its own light border; Grace green, Business gold, Pro platinum, Start plain */
+.pricing-page .d-plan.start{border-color:rgba(255,255,255,.2)}
+.pricing-page .d-plan.pro{border-color:rgba(214,224,236,.5);box-shadow:0 0 80px -16px rgba(200,214,232,.22)}
+.pricing-page .d-plan.pro h3,.pricing-page .d-plan.pro .price b{color:#e4ebf3}
+@media (hover:hover){
+ .pricing-page .d-plan.start:hover{border-color:rgba(255,255,255,.38)}
+ .pricing-page .d-plan.pro:hover{border-color:rgba(214,224,236,.8);box-shadow:0 0 90px -12px rgba(200,214,232,.35)}
+}
+.pricing-page .d-plans-head .pnote{font-size:14px;color:#b8b2a8;margin-top:10px}

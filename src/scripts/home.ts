@@ -5,7 +5,7 @@ type WorkItem = {
   title: string; cat: string; img?: string; bg?: string; link?: string; soon?: boolean; tags?: string;
   kind: Record<string, string>; story: { forWho: string; need: string; did: string }; gallery?: string[];
 };
-type Data = { lang: string; t: Record<string, string>; cats: Record<string, string>; work: WorkItem[] };
+type Data = { lang: string; t: Record<string, string>; cats: Record<string, string>; plans: Record<string, string>; work: WorkItem[] };
 
 const WHITE = '255,240,220';
 const HEAD_AT = 0.85; // beam front sits at 85% of the viewport height
@@ -43,7 +43,7 @@ export function initHome() {
     const pIn = pt(prism, 0.5, 0.1), pOut = pt(prism, 0.5, 0.75);
     const lens = pt(q('.d-lens'));
     const gx = innerWidth * (mobile ? 0.06 : 0.09);
-    const turnY = pt(q('#values'), 0, 0).y + innerHeight * 0.06;
+    const turnY = pt(q('#pricing'), 0, 0).y + innerHeight * 0.06;
     const downY = pt(q('#about'), 0, 1).y;
     const seal = pt(q('.d-env .seal'));
     segs = [{ a: src, b: pIn, c: WHITE, w: 1 }, { a: pIn, b: pOut, c: WHITE, w: 1.3 }];
@@ -176,10 +176,26 @@ export function initHome() {
   const form = q<HTMLFormElement>('.d-letter');
   const btn = form.querySelector<HTMLButtonElement>('button[type=submit]')!;
   const err = form.querySelector<HTMLElement>('.err')!;
+  // plan buttons preselect the choice; without JS their ?plan=…#contact link still lands on the form
+  const planIn = form.querySelector<HTMLInputElement>('[name=plan]')!;
+  const pick = form.querySelector<HTMLElement>('.pick')!;
+  const setPlan = (id: string) => {
+    const name = data.plans[id];
+    planIn.value = name ? id : '';
+    pick.hidden = !name;
+    if (name) pick.querySelector('b')!.textContent = name;
+  };
+  pick.querySelector('button')!.addEventListener('click', () => setPlan(''));
+  document.querySelectorAll<HTMLAnchorElement>('[data-plan]').forEach(a => a.addEventListener('click', e => {
+    e.preventDefault();
+    setPlan(a.dataset.plan!);
+    q('#contact').scrollIntoView({ behavior: reduced ? 'auto' : 'smooth' });
+  }));
+  setPlan(new URLSearchParams(location.search).get('plan') ?? '');
   form.addEventListener('submit', async e => {
     e.preventDefault();
     const fd = new FormData(form);
-    const body = { name: fd.get('name'), contact: fd.get('contact'), message: fd.get('message'), hp: fd.get('hp'), lang: data.lang };
+    const body = { name: fd.get('name'), contact: fd.get('contact'), message: fd.get('message'), plan: fd.get('plan'), hp: fd.get('hp'), lang: data.lang };
     if (!form.reportValidity()) return;
     btn.disabled = true; err.hidden = true;
     try {
@@ -187,6 +203,7 @@ export function initHome() {
       if (!res.ok) throw new Error(String(res.status));
       btn.textContent = data.t.lThanks;
       form.reset();
+      setPlan('');
     } catch {
       btn.disabled = false;
       err.hidden = false;

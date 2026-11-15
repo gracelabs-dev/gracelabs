@@ -1,5 +1,5 @@
 ---
-import { SITE, SERVICES, WORK, REVIEWS, CAT_COLORS, hexToRgb, t as tr, type Lang } from '../data/site';
+import { SITE, SERVICES, WORK, REVIEWS, PLANS, CAT_COLORS, hexToRgb, t as tr, type Lang } from '../data/site';
 import WaIcon from './WaIcon.astro';
 
 interface Props { lang: Lang }
@@ -14,11 +14,13 @@ const items = WORK.items.map(w => ({
   title: (w as { titles?: L }).titles?.[lang] ?? w.title,
   story: Object.fromEntries(Object.entries(w.story).map(([k, v]) => [k, (v as L)[lang]])),
 }));
+const pr = t.pr;
 const closeLabel = { en: 'Close', de: 'Schliessen', hu: 'Bezárás' }[lang];
 
 // data the client script needs (search, story cards, form messages)
 const clientData = {
   lang,
+  plans: { grace: 'Grace', ...Object.fromEntries(PLANS.map(p => [p.id, p.name])) },
   t: { soon: t.soon, stFor: t.stFor, stNeed: t.stNeed, stDid: t.stDid, stVisit: t.stVisit, lThanks: t.lThanks, lSend: t.lSend, lError: t.lError },
   cats: Object.fromEntries(WORK.cats.map(c => [c, (t as Record<string, unknown>)[`cat_${c}`]])),
   work: items,
@@ -67,16 +69,28 @@ const clientData = {
 
   <section class="d-lens-sec" aria-hidden="true"><div class="d-lens" data-lit-only></div></section>
 
-  <section class="d-text" id="values">
-    <div class="k" data-lit>{t.payKicker}</div>
-    <h2 data-lit>{t.payTitle}</h2>
-    <ol class="d-steps">
-      {[[t.s1t, t.s1b], [t.s2t, t.s2b], [t.s3t, t.s3b]].map(([title, body], n) => (
-        <li data-lit><span class="n">{n + 1}</span><div><b>{title}</b><p>{body}</p></div></li>
-      ))}
-    </ol>
-    <p class="note" data-lit>{t.payNote}</p>
-    <p data-lit>{t.payBody}</p>
+  <section class="d-text d-pricing" id="pricing">
+    <div class="d-grace">
+      <div class="k" data-lit>{t.payKicker}</div>
+      <h2 data-lit>{t.payTitle}</h2>
+      <p class="lede" data-lit>{pr.graceBody}</p>
+      <p data-lit>{t.payBody}</p>
+      <ol class="d-steps">
+        {[[t.s1t, t.s1b], [t.s2t, t.s2b], [t.s3t, t.s3b]].map(([title, body], n) => (
+          <li data-lit><span class="n">{n + 1}</span><div><b>{title}</b><p>{body}</p></div></li>
+        ))}
+      </ol>
+      <p class="note" data-lit>{t.payNote}</p>
+      <div class="d-grace-cta" data-lit>
+        <a class="btn primary" href="?plan=grace#contact" data-plan="grace">{pr.graceBtn}</a>
+        <span class="ok"><span class="dot"></span>{pr.graceOk}</span>
+      </div>
+    </div>
+
+    <div class="d-plans-link" data-lit>
+      <p>{pr.plansTeaser}</p>
+      <a class="btn ghost" href={`/${lang}/pricing/`}>{pr.plansLink}</a>
+    </div>
   </section>
 
   <section class="d-work" id="work">
@@ -141,6 +155,8 @@ const clientData = {
         <h3>{t.letterTitle}</h3>
         <label for="f-name">{t.lName}</label><input id="f-name" name="name" autocomplete="name" maxlength="100" />
         <label for="f-contact">{t.lContact}</label><input id="f-contact" name="contact" autocomplete="email" maxlength="200" required />
+        <p class="pick" hidden>{pr.choice}: <b></b> <button type="button" aria-label={pr.remove}>×</button></p>
+        <input type="hidden" name="plan" />
         <label for="f-msg">{t.lHelp}</label><textarea id="f-msg" name="message" rows="3" placeholder={t.lPh} maxlength="5000" required></textarea>
         <div class="hp" aria-hidden="true"><label for="f-hp">Leave this empty</label><input id="f-hp" name="hp" tabindex="-1" autocomplete="off" /></div>
         <div class="row"><button type="submit" aria-live="polite">{t.lSend}</button><span class="or">{t.lOr} <a href={`mailto:${SITE.email}`}>{SITE.email}</a></span></div>

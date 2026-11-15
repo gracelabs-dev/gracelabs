@@ -1,0 +1,60 @@
+---
+import { PLANS, t as tr, type Lang } from '../data/site';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const pr = tr(lang).pr;
+const huf = lang === 'hu';
+const noLabel = { en: 'not included', de: 'nicht enthalten', hu: 'nem tartalmazza' }[lang];
+// Grace comes first: same basic site as Start, free by application
+const cards = [
+  { id: 'grace', name: 'Grace', cls: ' grace', amount: pr.graceFree, cur: '', per: '', when: pr.graceWhen, btn: pr.graceBtn, primary: false },
+  ...PLANS.map(p => ({
+    id: p.id, name: p.name, cls: ` ${p.id}${'popular' in p ? ' pop' : ''}`, amount: huf ? p.huf.replace(' ', '\u00a0') : p.chf, cur: huf ? 'Ft' : 'CHF',
+    per: pr.per, when: '', btn: pr.choose.replace('{p}', p.name), primary: 'popular' in p,
+  })),
+];
+---
+<div class="d-plans-head">
+  <div class="k">{pr.plansKicker}</div>
+  <h1>{pr.plansTitle}</h1>
+  {pr.priceNote && <p class="pnote">{pr.priceNote}</p>}
+</div>
+<div class="d-try">
+  <b>{pr.tryTitle}</b>
+  <p>{pr.tryBody}</p>
+  <ul>{pr.terms.map(x => <li>{x}</li>)}</ul>
+</div>
+<div class="d-plans">
+  {cards.map((p, col) => (
+    <article class={`d-plan${p.cls}`} aria-labelledby={`plan-${p.id}`}>
+      {p.cls.includes(' pop') && <span class="badge">{pr.popular}</span>}
+      <header>
+        <h3 id={`plan-${p.id}`}>{p.name}</h3>
+        <div class="price">
+          {!p.cur ? <b>{p.amount}</b> : huf ? <><b>{p.amount}</b><span class="cur">{p.cur}</span></> : <><span class="cur">{p.cur}</span><b>{p.amount}</b></>}
+          {p.per && <span class="per">{p.per}</span>}
+        </div>
+        {p.when && <p class="when">{p.when}</p>}
+      </header>
+      {pr.rows.map(([label, ...vals], i) => {
+        const v = vals[col];
+        const star = i === pr.rows.length - 1;
+        return typeof v === 'number'
+          ? <div class={`r ${v ? 'yes' : 'no'}`}><span class="ic" aria-hidden="true">{v ? '✓' : '–'}</span><span>{label}{!v && <span class="sr"> ({noLabel})</span>}</span></div>
+          : <div class="r val"><small>{label}</small><span>{v}{star && <a class="star" href="#changes" aria-label={pr.levelsTitle}>*</a>}</span></div>;
+      })}
+      <a class={`btn ${p.primary ? 'primary' : 'ghost'}`} href={`/${lang}/?plan=${p.id}#contact`}>{p.btn}</a>
+    </article>
+  ))}
+</div>
+<div class="d-fn" id="changes">
+  <p><span class="star" aria-hidden="true">*</span>{pr.levelsTitle}</p>
+  <dl>{pr.levels.map(([name, body]) => <div><dt>{name}</dt><dd>{body}</dd></div>)}</dl>
+  <p>{pr.quoted}</p>
+</div>
+<div class="d-extras">
+  <h3>{pr.extrasTitle}</h3>
+  <ul>{pr.extras.map(([name, price]) => <li><span>{name}</span><b>{price}</b></li>)}</ul>
+  <p>{pr.extrasNote}{pr.priceNote && <> {pr.priceNote}</>}</p>
+</div>

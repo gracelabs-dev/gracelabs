@@ -45,3 +45,10 @@ export type Review = { quote: Record<string, string>; name: string; role?: Recor
 export const REVIEWS = reviews as Review[];
 export const CAT_COLORS: Record<string, string> = { work: '#ffd06b', others: '#5ad1ff', photo: '#ff6fae', fun: '#b69cff' };
 export const hexToRgb = (h: string) => [1, 3, 5].map(i => parseInt(h.slice(i, i + 2), 16)).join(',');
+
+// Monthly plan prices (studio/docs/pricing.md). HU shows forints, EN/DE francs.
+export const PLANS = [
+  { id: 'start', name: 'Start', chf: '19', huf: '4 990' },
+  { id: 'business', name: 'Business', chf: '39', huf: '9 990', popular: true },
+  { id: 'pro', name: 'Pro', chf: '69', huf: '17 990' },
+] as const;

@@ -4,11 +4,11 @@
   "sub": "Agency quality at a price that fits. IT help, websites and apps, plus photo and video.",
   "btn1": "Tell me what you need",
   "btn2": "What I do",
-  "heroNote": "I do the work first. You pay afterwards, only if you're happy and only what you can.",
-  "payKicker": "How it works",
-  "payTitle": "Pay what fits.",
+  "heroNote": "Can't afford an agency? That's exactly who I'm here for. Just ask, and we'll find what fits.",
+  "payKicker": "Grace · by application",
+  "payTitle": "Free, or what fits for you.",
   "s1t": "Just ask.",
-  "s1b": "Tell me what you need. Asking costs nothing, and there are no silly questions.",
+  "s1b": "Tell me a little about yourself and your work. Asking costs nothing, and there are no silly questions.",
   "s2t": "I do the work.",
   "s2b": "You see the finished result before you pay anything.",
   "s3t": "You decide.",
@@ -127,18 +127,154 @@
   "gameLine": "My free Bible quiz game. Race alone, or play a live quiz with your church or youth group.",
   "gameBtn": "Play 66",
   "revKicker": "Kind words",
-  "revTitle": "What people say."
+  "revTitle": "What people say.",
+  "navPrice": "Prices",
+  "pr": {
+   "graceBody": "Are you a church, a ministry, a Christian business with a small budget, or an individual? Apply for Grace: I build your website for free, and you give what fits for you, or nothing.",
+   "graceOk": "Most applications are approved.",
+   "graceBtn": "Check if you qualify",
+   "plansKicker": "Plans",
+   "plansTitle": "Pick what fits you.",
+   "priceNote": "",
+   "graceFree": "Free",
+   "graceWhen": "By application. Give what fits, or buy me a coffee.",
+   "plansTeaser": "Not a case for Grace? For other small businesses I have simple monthly plans.",
+   "plansLink": "See plans and prices →",
+   "pageTitle": "Plans and prices",
+   "pageDesc": "Website plans for small businesses: set up for free, pay only once it's live and you're happy, no minimum term.",
+   "tryTitle": "Setup free. Try first, pay only if you're happy.",
+   "tryBody": "I build and set up everything for free. You see the finished site and pay nothing until it's live and you said yes. If you don't like it, you walk away and owe nothing.",
+   "terms": [
+    "Cancel any month, no minimum term",
+    "You keep your domain and site code",
+    "Pay yearly: 10 months' price"
+   ],
+   "per": "/ month",
+   "popular": "Most popular",
+   "choose": "Choose {p}",
+   "rows": [
+    [
+     "Website",
+     "1 page: branding, products, hours, map, contact",
+     "1 page: branding, products, hours, map, contact",
+     "Up to 5 pages, 2 languages",
+     "Up to 8 pages, 2 languages"
+    ],
+    [
+     "Edit your content yourself (products, prices, news, opening hours)",
+     0,
+     0,
+     1,
+     1
+    ],
+    [
+     "Domain connected, SSL, hosting",
+     1,
+     1,
+     1,
+     1
+    ],
+    [
+     "Email",
+     "info@ forwarding",
+     "info@ forwarding",
+     "1 mailbox",
+     "3 mailboxes"
+    ],
+    [
+     "Google Business profile",
+     0,
+     0,
+     1,
+     1
+    ],
+    [
+     "Photos",
+     "Your photos, edited",
+     "Your photos, edited",
+     "Your photos, edited",
+     "Product and staff photo shoot included"
+    ],
+    [
+     "Booking / ordering link",
+     0,
+     0,
+     0,
+     1
+    ],
+    [
+     "Wallet loyalty card",
+     0,
+     0,
+     0,
+     1
+    ],
+    [
+     "Changes by me",
+     "Small",
+     "Small",
+     "Small + medium",
+     "Small + medium + large"
+    ]
+   ],
+   "levelsTitle": "What the changes mean",
+   "levels": [
+    [
+     "Small",
+     "Texts, prices, photos, opening hours, a dish or product added or removed."
+    ],
+    [
+     "Medium",
+     "Everything in small, plus new sections or paragraphs, a changed layout, a new page within your plan."
+    ],
+    [
+     "Large",
+     "Everything in small and medium, plus a fresh design or bigger reworks when your business changes."
+    ]
+   ],
+   "quoted": "New features like a shop or an app are quoted separately.",
+   "extrasTitle": "Extras, one-off",
+   "extrasNote": "All prices are negotiable if your budget is tight.",
+   "extras": [
+    [
+     "Photo shoot",
+     "from CHF 350"
+    ],
+    [
+     "Promo video (30–60 s)",
+     "from CHF 500"
+    ],
+    [
+     "Flyer or business cards",
+     "from CHF 150"
+    ],
+    [
+     "Logo or small brand kit",
+     "from CHF 400"
+    ],
+    [
+     "Wallet loyalty card (outside Pro)",
+     "CHF 490 + CHF 19 / month"
+    ],
+    [
+     "iOS or Android app",
+     "on request"
+    ]
+   ],
+   "choice": "Your choice",
+   "remove": "Remove choice"
+  }
  },
  "de": {
   "headline": "Dein Tech-Mensch.",
   "sub": "Agenturqualität zu einem Preis, der passt. IT-Hilfe, Websites und Apps, dazu Foto und Video.",
   "btn1": "Erzähl mir, was du brauchst",
   "btn2": "Was ich mache",
-  "heroNote": "Ich mache die Arbeit zuerst. Du zahlst danach, nur wenn du zufrieden bist, und nur so viel, wie du kannst.",
-  "payKicker": "So funktioniert's",
-  "payTitle": "Zahl, was passt.",
+  "heroNote": "Eine Agentur liegt nicht drin? Genau für dich bin ich da. Frag einfach, wir finden, was passt.",
+  "payKicker": "Grace · auf Anfrage",
+  "payTitle": "Kostenlos oder so viel, wie für dich passt.",
   "s1t": "Frag einfach.",
-  "s1b": "Erzähl mir, was du brauchst. Fragen kostet nichts, und es gibt keine dummen Fragen.",
+  "s1b": "Erzähl mir kurz von dir und deiner Arbeit. Fragen kostet nichts, und es gibt keine dummen Fragen.",
   "s2t": "Ich mache die Arbeit.",
   "s2b": "Du siehst das fertige Ergebnis, bevor du etwas bezahlst.",
   "s3t": "Du entscheidest.",
@@ -257,18 +393,154 @@
   "gameLine": "Mein kostenloses Bibel-Quizspiel. Fahr allein ein Rennen oder spielt ein Live-Quiz mit eurer Kirche oder Jugendgruppe.",
   "gameBtn": "66 spielen",
   "revKicker": "Rückmeldungen",
-  "revTitle": "Was andere sagen."
+  "revTitle": "Was andere sagen.",
+  "navPrice": "Preise",
+  "pr": {
+   "graceBody": "Bist du eine Kirche, ein christliches Werk, ein christliches Unternehmen mit kleinem Budget oder eine Privatperson? Bewirb dich für Grace: Ich baue deine Website kostenlos, und du gibst, was für dich passt, oder nichts.",
+   "graceOk": "Die meisten Anfragen werden angenommen.",
+   "graceBtn": "Prüfen, ob es passt",
+   "plansKicker": "Pakete",
+   "plansTitle": "Wähle, was zu dir passt.",
+   "priceNote": "",
+   "graceFree": "Gratis",
+   "graceWhen": "Auf Anfrage. Gib, was passt, oder spendier mir einen Kaffee.",
+   "plansTeaser": "Kein Fall für Grace? Für andere kleine Unternehmen gibt es einfache Monatspakete.",
+   "plansLink": "Pakete und Preise ansehen →",
+   "pageTitle": "Pakete und Preise",
+   "pageDesc": "Website-Pakete für kleine Unternehmen: Einrichtung gratis, du zahlst erst, wenn die Seite live ist und du zufrieden bist, ohne Mindestlaufzeit.",
+   "tryTitle": "Einrichtung kostenlos. Erst testen, nur zahlen, wenn du zufrieden bist.",
+   "tryBody": "Ich baue und richte alles kostenlos ein. Du siehst die fertige Website und zahlst nichts, bis sie live ist und du Ja gesagt hast. Gefällt sie dir nicht, gehst du und schuldest nichts.",
+   "terms": [
+    "Jeden Monat kündbar, keine Mindestlaufzeit",
+    "Domain und Website-Code bleiben dir",
+    "Jährlich zahlen: 10 Monatspreise"
+   ],
+   "per": "/ Monat",
+   "popular": "Am beliebtesten",
+   "choose": "{p} wählen",
+   "rows": [
+    [
+     "Website",
+     "1 Seite: Marke, Produkte, Öffnungszeiten, Karte, Kontakt",
+     "1 Seite: Marke, Produkte, Öffnungszeiten, Karte, Kontakt",
+     "Bis 5 Seiten, 2 Sprachen",
+     "Bis 8 Seiten, 2 Sprachen"
+    ],
+    [
+     "Inhalte selbst bearbeiten (Produkte, Preise, News, Öffnungszeiten)",
+     0,
+     0,
+     1,
+     1
+    ],
+    [
+     "Domain verbunden, SSL, Hosting",
+     1,
+     1,
+     1,
+     1
+    ],
+    [
+     "E-Mail",
+     "Weiterleitung info@",
+     "Weiterleitung info@",
+     "1 Postfach",
+     "3 Postfächer"
+    ],
+    [
+     "Google-Unternehmensprofil",
+     0,
+     0,
+     1,
+     1
+    ],
+    [
+     "Fotos",
+     "Deine Fotos, bearbeitet",
+     "Deine Fotos, bearbeitet",
+     "Deine Fotos, bearbeitet",
+     "Fotoshooting für Produkte und Team inklusive"
+    ],
+    [
+     "Buchungs- oder Bestelllink",
+     0,
+     0,
+     0,
+     1
+    ],
+    [
+     "Wallet-Treuekarte",
+     0,
+     0,
+     0,
+     1
+    ],
+    [
+     "Änderungen durch mich",
+     "Kleine",
+     "Kleine",
+     "Kleine + mittlere",
+     "Kleine + mittlere + grosse"
+    ]
+   ],
+   "levelsTitle": "Was die Änderungen bedeuten",
+   "levels": [
+    [
+     "Klein",
+     "Texte, Preise, Fotos, Öffnungszeiten, ein Gericht oder Produkt dazu oder weg."
+    ],
+    [
+     "Mittel",
+     "Alles aus klein, dazu neue Abschnitte oder Absätze, ein geändertes Layout, eine neue Seite im Rahmen deines Pakets."
+    ],
+    [
+     "Gross",
+     "Alles aus klein und mittel, dazu ein frisches Design oder grössere Umbauten, wenn sich dein Geschäft verändert."
+    ]
+   ],
+   "quoted": "Neue Funktionen wie ein Shop oder eine App offeriere ich separat.",
+   "extrasTitle": "Extras, einmalig",
+   "extrasNote": "Alle Preise sind verhandelbar, wenn das Budget knapp ist.",
+   "extras": [
+    [
+     "Fotoshooting",
+     "ab CHF 350"
+    ],
+    [
+     "Werbevideo (30–60 s)",
+     "ab CHF 500"
+    ],
+    [
+     "Flyer oder Visitenkarten",
+     "ab CHF 150"
+    ],
+    [
+     "Logo oder kleines Brand-Kit",
+     "ab CHF 400"
+    ],
+    [
+     "Wallet-Treuekarte (ohne Pro)",
+     "CHF 490 + CHF 19 / Monat"
+    ],
+    [
+     "iOS- oder Android-App",
+     "auf Anfrage"
+    ]
+   ],
+   "choice": "Deine Wahl",
+   "remove": "Wahl entfernen"
+  }
  },
  "hu": {
   "headline": "A te informatikusod.",
   "sub": "Ügynökségi minőség, a pénztárcádhoz igazítva. IT-segítség, weboldalak és appok, plusz fotó és videó.",
   "btn1": "Mondd el, mire van szükséged",
   "btn2": "Miben segítek",
-  "heroNote": "Először elvégzem a munkát. Utána fizetsz, csak ha elégedett vagy, és csak annyit, amennyit tudsz.",
-  "payKicker": "Így működik",
-  "payTitle": "Annyit fizetsz, amennyi belefér.",
+  "heroNote": "Nem fér bele egy ügynökség? Pont neked szeretnék segíteni. Kérdezz bátran, és megtaláljuk, ami neked jó.",
+  "payKicker": "Grace · jelentkezés alapján",
+  "payTitle": "Ingyen, vagy amennyit tudsz adni.",
   "s1t": "Csak kérdezz.",
-  "s1b": "Mondd el, mire van szükséged. A kérdezés ingyenes, és nincs buta kérdés.",
+  "s1b": "Írj pár sort magadról és a munkádról. A kérdezés ingyenes, és nincs buta kérdés.",
   "s2t": "Elvégzem a munkát.",
   "s2b": "A kész eredményt még azelőtt látod, hogy bármit fizetnél.",
   "s3t": "Te döntesz.",
@@ -387,6 +659,142 @@
   "gameLine": "Ingyenes bibliai kvízjátékom. Versenyezz egyedül, vagy játsszatok élő kvízt a gyülekezettel vagy az ifjúsági csoporttal.",
   "gameBtn": "Játssz a 66-tal",
   "revKicker": "Visszajelzések",
-  "revTitle": "Amit mások mondanak."
+  "revTitle": "Amit mások mondanak.",
+  "navPrice": "Árak",
+  "pr": {
+   "graceBody": "Gyülekezet, szolgálat, kis költségvetésű keresztény vállalkozás vagy magánszemély vagy? Jelentkezz a Grace programba: ingyen elkészítem a weboldaladat, te pedig annyit adsz, amennyit tudsz, vagy semmit.",
+   "graceOk": "A legtöbb jelentkezést elfogadom.",
+   "graceBtn": "Nézd meg, jogosult vagy-e",
+   "plansKicker": "Csomagok",
+   "plansTitle": "Válaszd, ami hozzád illik.",
+   "priceNote": "A forintos árak magyarországi ügyfeleknek szólnak. ÁFA-t nem számolok fel.",
+   "graceFree": "Ingyen",
+   "graceWhen": "Jelentkezés alapján. Adj, amennyi belefér, vagy hívj meg egy kávéra.",
+   "plansTeaser": "Nem a Grace-be tartozol? Más kisvállalkozásoknak egyszerű havi csomagokat kínálok.",
+   "plansLink": "Csomagok és árak →",
+   "pageTitle": "Csomagok és árak",
+   "pageDesc": "Weboldal-csomagok kisvállalkozásoknak: ingyenes beállítás, csak akkor fizetsz, ha az oldal él és elégedett vagy, minimális futamidő nélkül.",
+   "tryTitle": "Ingyenes beállítás. Előbb kipróbálod, és csak akkor fizetsz, ha elégedett vagy.",
+   "tryBody": "Mindent ingyen elkészítek és beállítok. Látod a kész oldalt, és semmit sem fizetsz, amíg nem élesedik, és rá nem bólintottál. Ha nem tetszik, továbbállsz, és nem tartozol semmivel.",
+   "terms": [
+    "Bármelyik hónapban lemondhatod, nincs hűségidő",
+    "A domain és az oldal kódja a tiéd marad",
+    "Éves fizetésnél 10 havi díj"
+   ],
+   "per": "/ hó",
+   "popular": "Legnépszerűbb",
+   "choose": "A {p} csomagot kérem",
+   "rows": [
+    [
+     "Weboldal",
+     "1 oldal: arculat, termékek, nyitvatartás, térkép, kapcsolat",
+     "1 oldal: arculat, termékek, nyitvatartás, térkép, kapcsolat",
+     "Legfeljebb 5 oldal, 2 nyelv",
+     "Legfeljebb 8 oldal, 2 nyelv"
+    ],
+    [
+     "Tartalmak saját szerkesztése (termékek, árak, hírek, nyitvatartás)",
+     0,
+     0,
+     1,
+     1
+    ],
+    [
+     "Domain bekötése, SSL, tárhely",
+     1,
+     1,
+     1,
+     1
+    ],
+    [
+     "E-mail",
+     "info@ továbbítás",
+     "info@ továbbítás",
+     "1 postafiók",
+     "3 postafiók"
+    ],
+    [
+     "Google Cégprofil",
+     0,
+     0,
+     1,
+     1
+    ],
+    [
+     "Fotók",
+     "A te fotóid, szerkesztve",
+     "A te fotóid, szerkesztve",
+     "A te fotóid, szerkesztve",
+     "Termék- és csapatfotózás benne van"
+    ],
+    [
+     "Foglalási / rendelési link",
+     0,
+     0,
+     0,
+     1
+    ],
+    [
+     "Wallet hűségkártya",
+     0,
+     0,
+     0,
+     1
+    ],
+    [
+     "Módosítások tőlem",
+     "Kicsi",
+     "Kicsi",
+     "Kicsi + közepes",
+     "Kicsi + közepes + nagy"
+    ]
+   ],
+   "levelsTitle": "Mit jelentenek a módosítások",
+   "levels": [
+    [
+     "Kicsi",
+     "Szövegek, árak, fotók, nyitvatartás, egy étel vagy termék fel vagy le."
+    ],
+    [
+     "Közepes",
+     "Minden, ami a kicsiben, plusz új szakaszok vagy bekezdések, módosított elrendezés, új oldal a csomagod keretein belül."
+    ],
+    [
+     "Nagy",
+     "Minden, ami a kicsiben és a közepesben, plusz friss dizájn vagy nagyobb átalakítás, ha változik a vállalkozásod."
+    ]
+   ],
+   "quoted": "Új funkciókra, például webshopra vagy appra, külön árajánlatot adok.",
+   "extrasTitle": "Extrák, egyszeri díjjal",
+   "extrasNote": "Ha szűkös a költségvetés, minden ár megbeszélhető.",
+   "extras": [
+    [
+     "Fotózás",
+     "50 000 Ft-tól"
+    ],
+    [
+     "Promóciós videó (30–60 mp)",
+     "100 000 Ft-tól"
+    ],
+    [
+     "Szórólap vagy névjegykártya",
+     "25 000 Ft-tól"
+    ],
+    [
+     "Logó vagy kis arculati csomag",
+     "95 000 Ft-tól"
+    ],
+    [
+     "Wallet hűségkártya (Pro nélkül)",
+     "100 000 Ft + 4 990 Ft / hó"
+    ],
+    [
+     "iOS vagy Android app",
+     "egyedi ajánlat alapján"
+    ]
+   ],
+   "choice": "Választásod",
+   "remove": "Választás törlése"
+  }
  }
 }

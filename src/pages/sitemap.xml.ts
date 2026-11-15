@@ -1,6 +1,6 @@
 import { SITE, LANGS } from '../data/site';
 
-const PAGES = ['', 'privacy/', 'imprint/'];
+const PAGES = ['', 'pricing/', 'privacy/', 'imprint/'];
 
 export function GET() {
   const urls = PAGES.flatMap(p => LANGS.map(l => {

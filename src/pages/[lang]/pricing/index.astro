@@ -1,0 +1,26 @@
+---
+import Base from '../../../layouts/Base.astro';
+import Nav from '../../../components/Nav.astro';
+import Footer from '../../../components/Footer.astro';
+import Plans from '../../../components/Plans.astro';
+import { LANGS, t as tr, type Lang } from '../../../data/site';
+
+export function getStaticPaths() {
+  return LANGS.map(lang => ({ params: { lang } }));
+}
+const lang = Astro.params.lang as Lang;
+const pr = tr(lang).pr;
+const back = { en: '← Back to Grace Labs', de: '← Zurück zu Grace Labs', hu: '← Vissza a Grace Labshez' }[lang];
+---
+<Base lang={lang} title={`${pr.pageTitle} · Grace Labs`} description={pr.pageDesc} path="pricing/">
+  <Nav lang={lang} path="pricing/" />
+  <main id="main" class="d-text d-pricing pricing-page">
+    <a class="back" href={`/${lang}/`}>{back}</a>
+    <Plans lang={lang} />
+  </main>
+  <Footer lang={lang} path="pricing/" />
+  <script>
+    document.querySelectorAll<HTMLAnchorElement>('[data-lang]').forEach(a =>
+      a.addEventListener('click', () => { try { localStorage.setItem('gl-lang', a.dataset.lang!); } catch {} }));
+  </script>
+</Base>

@@ -18,6 +18,7 @@ const json = (body: unknown, status = 200) =>
   new Response(JSON.stringify(body), { status, headers: { 'Content-Type': 'application/json' } });
 const clean = (v: unknown, max: number) => String(v ?? '').replace(/\r/g, '').trim().slice(0, max);
 const oneLine = (v: unknown, max: number) => clean(v, max).replace(/\s+/g, ' ');
+const PLANS: Record<string, string> = { grace: 'Grace', start: 'Start', business: 'Business', pro: 'Pro' };
 
 export default {
   async fetch(req, env, ctx) {
@@ -59,6 +60,7 @@ async function contact(req: Request, env: Env, ctx: ExecutionContext) {
   const name = oneLine(body.name, 100);
   const contactInfo = oneLine(body.contact, 200);
   const message = clean(body.message, 5000);
+  const plan = Object.hasOwn(PLANS, String(body.plan)) ? PLANS[String(body.plan)] : '';
   const lang = ['en', 'de', 'hu'].includes(String(body.lang)) ? String(body.lang) : 'en';
   if (!contactInfo || !message) return json({ ok: false, error: 'missing' }, 400);
 
@@ -66,8 +68,8 @@ async function contact(req: Request, env: Env, ctx: ExecutionContext) {
     from: env.MAIL_FROM,
     to: [env.MAIL_TO],
     reply_to: /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(contactInfo) ? contactInfo : undefined,
-    subject: `New request from ${name || 'someone'} · gracelabs.dev`,
-    text: `Name: ${name || '-'}\nContact: ${contactInfo}\nLanguage: ${lang}\n\n${message}\n`,
+    subject: `New request${plan ? ` (${plan})` : ''} from ${name || 'someone'} · gracelabs.dev`,
+    text: `Name: ${name || '-'}\nContact: ${contactInfo}\nLanguage: ${lang}\nPlan: ${plan || '-'}\n\n${message}\n`,
   };
 
   if (env.DRY_RUN === '1') {
@@ -86,11 +88,13 @@ async function contact(req: Request, env: Env, ctx: ExecutionContext) {
   }
 
   // deliberately without name or message: the privacy notice promises a content-free ping
-  if (env.TELEGRAM_BOT_TOKEN && env.TELEGRAM_CHAT_ID && env.DRY_RUN !== '1') {
+  const ping = `📬 New message on gracelabs.dev${plan ? ` (${plan})` : ''}. Check your inbox.`;
+  if (env.DRY_RUN === '1') console.log('[dry run] would ping Telegram:', ping);
+  else if (env.TELEGRAM_BOT_TOKEN && env.TELEGRAM_CHAT_ID) {
     ctx.waitUntil(fetch(`https://api.telegram.org/bot${env.TELEGRAM_BOT_TOKEN}/sendMessage`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ chat_id: env.TELEGRAM_CHAT_ID, text: '📬 New message on gracelabs.dev. Check your inbox.' }),
+      body: JSON.stringify({ chat_id: env.TELEGRAM_CHAT_ID, text: ping }),
     }));
   }
   return json({ ok: true });
