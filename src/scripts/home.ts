@@ -179,11 +179,20 @@ export function initHome() {
   // plan buttons preselect the choice; without JS their ?plan=…#contact link still lands on the form
   const planIn = form.querySelector<HTMLInputElement>('[name=plan]')!;
   const pick = form.querySelector<HTMLElement>('.pick')!;
+  const msg = form.querySelector<HTMLTextAreaElement>('[name=message]')!;
+  let prefill = '';
   const setPlan = (id: string) => {
     const name = data.plans[id];
     planIn.value = name ? id : '';
     pick.hidden = !name;
     if (name) pick.querySelector('b')!.textContent = name;
+    // a ready-to-send message for the chosen plan; never overwrite what the visitor typed
+    if (msg.value.trim() === '' || msg.value === prefill) {
+      prefill = !name ? '' : id === 'grace' ? data.t.lGraceMsg : data.t.lPlanMsg.replace('{p}', name);
+      msg.value = prefill;
+      msg.style.height = '';
+      if (prefill) msg.style.height = `${msg.scrollHeight + 2}px`;
+    }
   };
   pick.querySelector('button')!.addEventListener('click', () => setPlan(''));
   document.querySelectorAll<HTMLAnchorElement>('[data-plan]').forEach(a => a.addEventListener('click', e => {

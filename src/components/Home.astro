@@ -21,7 +21,7 @@ const closeLabel = { en: 'Close', de: 'Schliessen', hu: 'Bezárás' }[lang];
 const clientData = {
   lang,
   plans: { grace: 'Grace', ...Object.fromEntries(PLANS.map(p => [p.id, p.name])) },
-  t: { soon: t.soon, stFor: t.stFor, stNeed: t.stNeed, stDid: t.stDid, stVisit: t.stVisit, lThanks: t.lThanks, lSend: t.lSend, lError: t.lError },
+  t: { soon: t.soon, stFor: t.stFor, stNeed: t.stNeed, stDid: t.stDid, stVisit: t.stVisit, lThanks: t.lThanks, lSend: t.lSend, lError: t.lError, lPlanMsg: t.lPlanMsg, lGraceMsg: t.lGraceMsg },
   cats: Object.fromEntries(WORK.cats.map(c => [c, (t as Record<string, unknown>)[`cat_${c}`]])),
   work: items,
 };
