@@ -367,3 +367,9 @@ p{margin:0}
  .pricing-page .d-plan.pro:hover{border-color:rgba(214,224,236,.8);box-shadow:0 0 90px -12px rgba(200,214,232,.35)}
 }
 .pricing-page .d-plans-head .pnote{font-size:14px;color:#b8b2a8;margin-top:10px}
+.pricing-page .d-give{box-sizing:border-box;margin:26px auto 0;padding:0 4px;font-size:14px;line-height:1.55;color:#b8b2a8;scroll-margin-top:110px}
+.pricing-page .d-give .star,.pricing-page .d-fn>p .star{margin:0 4px 0 0}
+.pricing-page .d-give+.d-fn{margin-top:10px}
+.pricing-page .price .star{align-self:flex-start;margin:4px 0 0 -2px;font-size:18px}
+@media (max-width:1000px){.pricing-page .d-give{max-width:560px}}
+@media (min-width:1001px) and (max-width:1279px){.pricing-page .d-give{max-width:900px}}
