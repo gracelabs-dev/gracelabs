@@ -36,7 +36,9 @@ const url = (l: string) => `${SITE.url}/${l}/${path}`;
     {jsonLd && <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />}
     <script is:inline>document.documentElement.classList.add('js')</script>
     <meta name="theme-color" content="#08080b" />
+    <link rel="icon" href="/favicon.ico" sizes="32x32" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
   </head>
   <body>
     <slot />

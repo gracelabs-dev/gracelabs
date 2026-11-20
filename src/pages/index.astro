@@ -12,7 +12,9 @@ import { SITE, LANGS } from '../data/site';
     {LANGS.map(l => <link rel="alternate" hreflang={l} href={`${SITE.url}/${l}/`} />)}
     <link rel="alternate" hreflang="x-default" href={`${SITE.url}/en/`} />
     <link rel="canonical" href={`${SITE.url}/en/`} />
+    <link rel="icon" href="/favicon.ico" sizes="32x32" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <script is:inline>
       (function () {
         var L = ['en', 'de', 'hu'], p = null;

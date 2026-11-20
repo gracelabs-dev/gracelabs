@@ -5,6 +5,7 @@ html,body{margin:0;overflow-x:hidden;background:#08080b;color:#f2efe9;font-famil
 .d-nav b{font:500 20px 'Fraunces Variable',serif;white-space:nowrap}
 .d-nav>div{display:flex;align-items:center;white-space:nowrap}
 .d-nav a{color:inherit;text-decoration:none}
+.d-nav .brand{display:flex;align-items:center;gap:10px}.d-nav .mark{flex:none;display:block}
 .d-nav .lk,.d-nav .cta{opacity:.75;margin-left:26px}.d-nav .lk:hover{opacity:1}
 .d-nav .d-lang a{opacity:1}
 .d-nav .cta{opacity:1;padding:9px 16px;border-radius:99px;border:1px solid rgba(255,208,107,.5);color:#ffd06b}
