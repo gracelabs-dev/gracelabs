@@ -1,5 +1,5 @@
 {
-  "_note": "Update by hand: raised = amount on the Muskathlon page (CHF), updated = date shown on the page, names = only people who agreed to be shown. updates: newest first; image/video = files in public/kilimanjaro/ (optional). media: gallery items, newest first; files in public/kilimanjaro/media/, type video (with poster) or image.",
+  "_note": "Update by hand: raised = amount on the Muskathlon page (CHF), updated = date shown on the page, names = only people who agreed to be shown. updates: newest first; image/video = files in public/kilimanjaro/ (optional). media: gallery items, newest first; files in public/kilimanjaro/media/, type video (with poster) or image; src may be one path or one per language {de,en,hu}.",
   "donateUrl": "https://muskathlon-kilimanjaro.ch/event/muskathlon-kilimanjaro-2027-4545/daniel-gergely-613#event_donation_form",
   "goal": 10000,
   "raised": 0,
@@ -38,43 +38,18 @@
     },
     {
       "type": "image",
-      "src": "media/training-staegli.jpg",
-      "date": "2026-11-22",
+      "src": {
+        "de": "media/flag-de.jpg",
+        "en": "media/flag-en.jpg",
+        "hu": "media/flag-hu.jpg"
+      },
+      "date": "2026-11-23",
       "title": {
-        "de": "Training am 1000er-Stägli",
-        "en": "Training on the 1000 steps",
-        "hu": "Edzés az 1000 lépcsőn"
-      }
-    },
-    {
-      "type": "image",
-      "src": "media/bluemlisalplauf.jpg",
-      "date": "2026-05-31",
-      "title": {
-        "de": "Blüemlisalplauf",
-        "en": "Blüemlisalp race",
-        "hu": "Blüemlisalp-futás"
-      }
-    },
-    {
-      "type": "image",
-      "src": "media/balmfluechoepfli.jpg",
-      "date": "2025-09-11",
-      "title": {
-        "de": "Aussicht vom Balmfluechöpfli",
-        "en": "View from the Balmfluechöpfli",
-        "hu": "Kilátás a Balmfluechöpfliről"
-      }
-    },
-    {
-      "type": "image",
-      "src": "media/niesen.jpg",
-      "date": "2022-09-16",
-      "title": {
-        "de": "Auf dem Niesen",
-        "en": "On the Niesen",
-        "hu": "A Niesen csúcsán"
-      }
+        "de": "Mit der Flagge nach oben (Fotomontage)",
+        "en": "Taking the flag to the top (photo montage)",
+        "hu": "A zászlóval a csúcsra (fotómontázs)"
+      },
+      "poster": "media/flag-thumb.jpg"
     }
   ]
 }
