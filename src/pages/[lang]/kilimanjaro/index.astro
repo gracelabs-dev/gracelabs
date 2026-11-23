@@ -68,7 +68,7 @@ const T = {
     endH: 'Komm mit auf diesen Weg.',
     made: 'Website und Video von', photos: 'Fotos: Muskathlon 2022, Unsplash',
     privacy: 'Datenschutz', imprint: 'Impressum', video: 'Teaser-Video vom Aufstieg',
-    mediaK: 'Videos & Bilder', mediaH: 'Teile den Weg mit anderen.', mediaNote: 'Hier kommen laufend neue Videos und Bilder vom Training und von der Reise dazu. Schau wieder vorbei!', shareTeaser: 'Teaser teilen', share: 'Teilen', download: 'Herunterladen', copied: 'Link kopiert', close: 'Schliessen', prev: 'Zurück', next: 'Weiter',
+    mediaK: 'Videos & Bilder', mediaH: 'Teile den Weg mit anderen.', mediaNote: 'Hier kommen laufend neue Videos und Bilder vom Training und von der Reise dazu. Schau wieder vorbei!', shareTeaser: 'Teaser teilen', share: 'Teilen', copyLink: 'Link kopieren', email: 'E-Mail', download: 'Herunterladen', copied: 'Link kopiert', close: 'Schliessen', prev: 'Zurück', next: 'Weiter',
     shareText: 'Daniel steigt für Mütter und Babys in Tansania auf den Kilimandscharo. Komm mit:',
     alti: 'Höhe', summitMsg: 'Gipfel erreicht!',
     egHint: 'Psst: Tippe 3× auf den Gipfel.', egMsg: 'Uhuru Peak · 5\'895 m. Danke, dass du mitkommst!',
@@ -121,7 +121,7 @@ const T = {
     endH: 'Come along on this journey.',
     made: 'Website and video by', photos: 'Photos: Muskathlon 2022, Unsplash',
     privacy: 'Privacy', imprint: 'Imprint', video: 'Teaser video of the climb',
-    mediaK: 'Videos & photos', mediaH: 'Share the journey.', mediaNote: 'New videos and photos from training and from the trip will keep appearing here. Come back soon!', shareTeaser: 'Share the teaser', share: 'Share', download: 'Download', copied: 'Link copied', close: 'Close', prev: 'Previous', next: 'Next',
+    mediaK: 'Videos & photos', mediaH: 'Share the journey.', mediaNote: 'New videos and photos from training and from the trip will keep appearing here. Come back soon!', shareTeaser: 'Share the teaser', share: 'Share', copyLink: 'Copy link', email: 'Email', download: 'Download', copied: 'Link copied', close: 'Close', prev: 'Previous', next: 'Next',
     shareText: 'Daniel is climbing Kilimanjaro for mothers and babies in Tanzania. Come along:',
     alti: 'Altitude', summitMsg: 'Summit reached!',
     egHint: 'Psst: tap the summit 3 times.', egMsg: 'Uhuru Peak · 5,895 m. Thank you for coming along!',
@@ -174,7 +174,7 @@ const T = {
     endH: 'Tarts velem ezen az úton!',
     made: 'Weboldal és videó:', photos: 'Fotók: Muskathlon 2022, Unsplash',
     privacy: 'Adatvédelem', imprint: 'Impresszum', video: 'Teaser videó a mászásról',
-    mediaK: 'Videók és képek', mediaH: 'Oszd meg az utat másokkal is.', mediaNote: 'Ide folyamatosan kerülnek fel új videók és képek az edzésekről és az útról. Nézz vissza később is!', shareTeaser: 'Teaser megosztása', share: 'Megosztás', download: 'Letöltés', copied: 'Link másolva', close: 'Bezárás', prev: 'Előző', next: 'Következő',
+    mediaK: 'Videók és képek', mediaH: 'Oszd meg az utat másokkal is.', mediaNote: 'Ide folyamatosan kerülnek fel új videók és képek az edzésekről és az útról. Nézz vissza később is!', shareTeaser: 'Teaser megosztása', share: 'Megosztás', copyLink: 'Link másolása', email: 'E-mail', download: 'Letöltés', copied: 'Link másolva', close: 'Bezárás', prev: 'Előző', next: 'Következő',
     shareText: 'Dániel tanzániai édesanyákért és babákért mássza meg a Kilimandzsárót. Tarts vele:',
     alti: 'Magasság', summitMsg: 'Csúcson vagyunk!',
     egHint: 'Psszt: koppints háromszor a csúcsra.', egMsg: 'Uhuru Peak · 5895 m. Köszönöm, hogy velem tartasz!',
@@ -290,7 +290,7 @@ const UPDATES = ((data as { updates?: Update[] }).updates ?? []).map(u => ({ ...
         <button type="button" class="btn primary share-main">{T.shareTeaser} ↗</button>
         <p class="media-note">{T.mediaNote}</p>
       </div>
-      <script type="application/json" id="media-data" set:html={JSON.stringify({ items: MEDIA, t: { share: T.share, download: T.download, copied: T.copied, close: T.close, text: T.shareText, title: T.title } })}></script>
+      <script type="application/json" id="media-data" set:html={JSON.stringify({ items: MEDIA, t: { share: T.share, download: T.download, copied: T.copied, close: T.close, text: T.shareText, title: T.title, copyLink: T.copyLink, email: T.email } })}></script>
       <dialog class="lightbox">
         <button type="button" class="lb-x" aria-label={T.close}>✕</button>
         <div class="lb-media"></div>
@@ -511,7 +511,9 @@ const UPDATES = ((data as { updates?: Update[] }).updates ?? []).map(u => ({ ...
     const pageUrl = location.origin + location.pathname;
     const files = new Map<string, File>();
     let current: Item = items[0];
-    const say = (msg: string) => { toast.textContent = msg; toast.classList.add('on'); setTimeout(() => toast.classList.remove('on'), 2200); };
+    const home = toast.parentElement!;
+    // while the lightbox is open the toast must live inside it, or the dialog covers it
+    const say = (msg: string) => { (dlg.open ? dlg : home).appendChild(toast); toast.textContent = msg; toast.classList.add('on'); setTimeout(() => toast.classList.remove('on'), 2200); };
     const prefetch = (it: Item) => {
       if (it.type !== 'video' || files.has(it.src) || !('canShare' in navigator)) return;
       fetch(it.src).then(r => r.blob()).then(b => {
@@ -519,18 +521,54 @@ const UPDATES = ((data as { updates?: Update[] }).updates ?? []).map(u => ({ ...
         if (navigator.canShare({ files: [f] })) files.set(it.src, f);
       }).catch(() => {});
     };
-    const share = async (it: Item | null) => {
-      const data: ShareData = { title: t.title, text: t.text, url: pageUrl };
-      try {
-        const f = it ? files.get(it.src) : undefined;
-        if (f) { await navigator.share({ files: [f], title: t.title, text: `${t.text} ${pageUrl}` }); return; }
-        if (navigator.share) { await navigator.share(data); return; }
-        await navigator.clipboard.writeText(pageUrl); say(t.copied);
-      } catch (e) {
-        if ((e as Error).name === 'AbortError') return;
-        try { await navigator.clipboard.writeText(pageUrl); say(t.copied); } catch {}
+    const copy = async () => {
+      try { await navigator.clipboard.writeText(pageUrl); }
+      catch {
+        const ta = document.createElement('textarea'); ta.value = pageUrl; ta.style.position = 'fixed'; ta.style.opacity = '0';
+        document.body.appendChild(ta); ta.select(); try { document.execCommand('copy'); } catch {} ta.remove();
       }
+      say(t.copied);
     };
+    // A small share menu for desktops (and phones without a share sheet).
+    const enc = encodeURIComponent;
+    const menuFor = (host: HTMLElement) => {
+      let m = host.querySelector<HTMLElement>('.share-menu');
+      if (m) return m;
+      m = document.createElement('div');
+      m.className = 'share-menu'; m.hidden = true;
+      const links: [string, string][] = [
+        ['WhatsApp', `https://wa.me/?text=${enc(`${t.text} ${pageUrl}`)}`],
+        [t.email, `mailto:?subject=${enc(t.title)}&body=${enc(`${t.text} ${pageUrl}`)}`],
+        ['Facebook', `https://www.facebook.com/sharer/sharer.php?u=${enc(pageUrl)}`],
+        ['LinkedIn', `https://www.linkedin.com/sharing/share-offsite/?url=${enc(pageUrl)}`],
+        ['X', `https://twitter.com/intent/tweet?text=${enc(t.text)}&url=${enc(pageUrl)}`],
+      ];
+      const b = document.createElement('button'); b.type = 'button'; b.textContent = t.copyLink; b.addEventListener('click', copy);
+      m.appendChild(b);
+      links.forEach(([label, href]) => { const a = document.createElement('a'); a.href = href; a.textContent = label; a.target = '_blank'; a.rel = 'noopener'; m!.appendChild(a); });
+      host.appendChild(m);
+      return m;
+    };
+    const touch = matchMedia('(pointer: coarse)').matches;
+    const share = async (it: Item | null, host: HTMLElement) => {
+      if (touch && navigator.share) {
+        try {
+          const f = it ? files.get(it.src) : undefined;
+          if (f) await navigator.share({ files: [f], title: t.title, text: `${t.text} ${pageUrl}` });
+          else await navigator.share({ title: t.title, text: t.text, url: pageUrl });
+          return;
+        } catch (e) { if ((e as Error).name === 'AbortError') return; }
+      }
+      const m = menuFor(host);
+      const wasHidden = m.hidden;
+      document.querySelectorAll<HTMLElement>('.share-menu').forEach(x => { x.hidden = true; });
+      m.hidden = !wasHidden;
+      if (!m.hidden) copy();
+    };
+    document.addEventListener('click', e => {
+      const el = e.target as HTMLElement;
+      if (!el.closest('.share-menu') && !el.closest('.share-main') && !el.closest('.lb-share')) document.querySelectorAll<HTMLElement>('.share-menu').forEach(x => { x.hidden = true; });
+    });
     const open = (i: number) => {
       current = items[i];
       box.innerHTML = '';
@@ -545,14 +583,14 @@ const UPDATES = ((data as { updates?: Update[] }).updates ?? []).map(u => ({ ...
       dlg.querySelector<HTMLAnchorElement>('.lb-dl')!.href = current.src;
       dlg.showModal();
     };
-    const closeDlg = () => { box.querySelector('video')?.pause(); dlg.close(); };
+    const closeDlg = () => { box.querySelector('video')?.pause(); dlg.querySelector<HTMLElement>('.share-menu')?.setAttribute('hidden', ''); dlg.close(); };
     track.querySelectorAll<HTMLButtonElement>('.mcard').forEach(b => b.addEventListener('click', () => open(Number(b.dataset.i))));
     dlg.querySelector('.lb-close')!.addEventListener('click', closeDlg);
     dlg.querySelector('.lb-x')!.addEventListener('click', closeDlg);
     dlg.addEventListener('click', e => { if (e.target === dlg) closeDlg(); });
     dlg.addEventListener('close', () => box.querySelector('video')?.pause());
-    dlg.querySelector('.lb-share')!.addEventListener('click', () => share(current));
-    document.querySelector('.share-main')!.addEventListener('click', () => share(items.find(x => x.type === 'video') ?? null));
+    dlg.querySelector('.lb-share')!.addEventListener('click', () => share(current, dlg.querySelector<HTMLElement>('.lb-bar')!));
+    document.querySelector('.share-main')!.addEventListener('click', () => share(items.find(x => x.type === 'video') ?? null, document.querySelector<HTMLElement>('.share-row')!));
     document.querySelectorAll<HTMLButtonElement>('.arr').forEach(b => b.addEventListener('click', () => {
       const card = track.querySelector('li');
       track.scrollBy({ left: Number(b.dataset.dir) * ((card?.clientWidth ?? 300) + 16), behavior: reduce ? 'auto' : 'smooth' });
@@ -619,6 +657,13 @@ const UPDATES = ((data as { updates?: Update[] }).updates ?? []).map(u => ({ ...
   .mcard b { font: 400 19px/1.2 'Fraunces Variable', serif; }
   .share-row { margin-top: 22px; display: flex; align-items: center; gap: 14px 22px; flex-wrap: wrap; }
   .media-note { color: var(--mute); font-size: 15px; max-width: 52ch; }
+  .share-row, .lb-bar { position: relative; }
+  .share-row :global(.share-menu), .lb-bar :global(.share-menu) { position: absolute; z-index: 5; display: flex; flex-wrap: wrap; gap: 6px; padding: 10px; border-radius: 16px; background: #1b1a20; border: 1px solid rgba(255,208,107,.35); box-shadow: 0 20px 40px -16px rgba(0,0,0,.7); }
+  .share-row :global(.share-menu) { left: max(24px, 5vw); top: calc(100% + 8px); max-width: 640px; }
+  .lb-bar :global(.share-menu) { left: 10px; right: 10px; bottom: calc(100% + 8px); }
+  :global(.share-menu[hidden]) { display: none !important; }
+  :global(.share-menu) :global(a), :global(.share-menu) :global(button) { padding: 8px 13px; border-radius: 99px; border: 1px solid rgba(255,255,255,.2); background: rgba(255,255,255,.05); color: #f2efe9; font: 600 14px 'Inter Variable', sans-serif; text-decoration: none; cursor: pointer; }
+  :global(.share-menu) :global(button) { background: #ffd06b; color: #1a1208; border-color: #ffd06b; }
   .share-row .btn { border: 0; cursor: pointer; font-family: inherit; }
   .lightbox { padding: 0; border: 0; border-radius: 22px; background: #0c0b0f; color: var(--ink); width: min(92vw, calc((92svh - 76px) * 9 / 16)); max-width: none; max-height: 92svh; overflow: hidden; }
   .lightbox[open] { display: flex; flex-direction: column; }
