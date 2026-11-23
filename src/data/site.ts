@@ -13,6 +13,7 @@ export const SITE = {
   linkedin: 'https://www.linkedin.com/in/danielg98/',
   github: 'https://github.com/Danielgergely',
   cfBeacon: '97a7ba0ae75a46dfb5215a8cbf17cb39', // Cloudflare Web Analytics site token (public); empty = no beacon
+  tracker: 'https://portal.gracelabs.dev/t.js', // own statistics (visits, contact clicks); empty = off
   game: 'https://66.broscafe.hu', // becomes https://66.gracelabs.dev once the game has moved
 };
 

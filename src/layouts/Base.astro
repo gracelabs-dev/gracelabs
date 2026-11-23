@@ -43,5 +43,6 @@ const url = (l: string) => `${SITE.url}/${l}/${path}`;
   <body>
     <slot />
     {SITE.cfBeacon && <script is:inline type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon={JSON.stringify({ token: SITE.cfBeacon })}></script>}
+    {SITE.tracker && <script is:inline defer data-site="gracelabs.dev" src={SITE.tracker}></script>}
   </body>
 </html>
