@@ -20,7 +20,7 @@ Personal business site of Daniel Gergely: IT support, websites/apps, AI advice, 
 
 ## Rules
 
-- No cookies, no analytics, no external requests from the page (fonts are self-hosted). Adding any third-party service means updating the privacy notice in all three languages.
+- No cookies and no external requests from the page (fonts are self-hosted), except the Cloudflare Web Analytics beacon (cookieless, named in the privacy notice). Adding any third-party service means updating the privacy notice in all three languages.
 - Never use Compassion branding or photos of sponsored children. MyCompassion is described as team work at the employer.
 - Commits as `hello@gracelabs.dev` (local git config). Short commit messages. Commit, push and deploy only when Daniel says so.
 - Readability first: text must stay readable before and after the light-beam effects; check phone width (390px) for every visual change.

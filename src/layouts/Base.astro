@@ -42,5 +42,6 @@ const url = (l: string) => `${SITE.url}/${l}/${path}`;
   </head>
   <body>
     <slot />
+    {SITE.cfBeacon && <script is:inline type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon={JSON.stringify({ token: SITE.cfBeacon })}></script>}
   </body>
 </html>

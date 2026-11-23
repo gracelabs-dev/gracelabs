@@ -5,7 +5,7 @@ Website of [gracelabs.dev](https://gracelabs.dev): IT support, websites, apps an
 - **Astro** static site in three languages: `/en/`, `/de/`, `/hu/`. `/` picks the visitor's language.
 - **Cloudflare Workers** serves the site and runs two small routes in `worker/index.ts`:
   `POST /api/contact` (email via Resend + content-free Telegram ping) and `GET /whatsapp` (redirect, so the number never appears in the page).
-- No cookies, no analytics, fonts are self-hosted.
+- No cookies, fonts are self-hosted. Visits are counted with Cloudflare Web Analytics (cookieless; token in `src/data/site.ts`).
 
 ## Develop
 
