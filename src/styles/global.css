@@ -95,8 +95,8 @@ p{margin:0}
 .d-try ul{list-style:none;padding:0;margin:18px 0 0;display:flex;flex-wrap:wrap;gap:8px}
 .d-try li{padding:8px 14px;border-radius:99px;border:1px solid rgba(255,208,107,.35);background:rgba(255,208,107,.07);font-size:14px}
 .d-try li:before{content:'✓';color:#ffd06b;margin-right:8px}
-.d-plans{display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(11,auto);gap:0 22px;max-width:1100px;margin-top:56px}
-.d-plan{grid-row:span 11;display:grid;grid-template-rows:subgrid;position:relative;padding:34px 26px 26px;border-radius:24px;background:rgba(13,13,17,.88);border:1px solid rgba(255,255,255,.08);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);transition:opacity .9s ease,border-color 1.2s,box-shadow 1.4s}
+.d-plans{display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(12,auto);gap:0 22px;max-width:1100px;margin-top:56px}
+.d-plan{grid-row:span 12;display:grid;grid-template-rows:subgrid;position:relative;padding:34px 26px 26px;border-radius:24px;background:rgba(13,13,17,.88);border:1px solid rgba(255,255,255,.08);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);transition:opacity .9s ease,border-color 1.2s,box-shadow 1.4s}
 .d-plan.pop.lit{border-color:rgba(255,208,107,.6);box-shadow:0 0 80px -14px rgba(255,208,107,.4)}
 .d-plan .badge{position:absolute;top:-13px;left:26px;background:#ffd06b;color:#1a1208;font-size:12px;font-weight:700;letter-spacing:.08em;padding:6px 12px;border-radius:99px;text-transform:uppercase}
 .d-plan h3{font-size:34px;line-height:1}
@@ -318,7 +318,7 @@ p{margin:0}
 .d-plan.grace{border-color:rgba(74,222,128,.45);box-shadow:0 0 80px -16px rgba(74,222,128,.3)}
 .d-plan.grace h3,.d-plan.grace .price b{color:#bdf5cf}
 .d-plan.grace .price{flex-wrap:wrap}
-@media (min-width:1001px) and (max-width:1279px){.pricing-page .d-plans{grid-template-columns:repeat(2,1fr);grid-template-rows:repeat(22,auto);gap:0 22px;max-width:900px}.pricing-page .d-plan:nth-child(n+3){margin-top:40px}}
+@media (min-width:1001px) and (max-width:1279px){.pricing-page .d-plans{grid-template-columns:repeat(2,1fr);grid-template-rows:repeat(24,auto);gap:0 22px;max-width:900px}.pricing-page .d-plan:nth-child(n+3){margin-top:40px}}
 @media (max-width:1000px){.pricing-page .d-plans{grid-template-columns:1fr;grid-template-rows:none}}
 /* pricing page: one centred column, change levels as a quiet footnote under the plans */
 .pricing-page>*{max-width:1320px;margin-left:auto;margin-right:auto}
