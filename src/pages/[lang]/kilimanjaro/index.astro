@@ -1,0 +1,730 @@
+---
+// Fundraising page for Daniel's Muskathlon Kilimanjaro climb (Feb 2027). German, English, Hungarian.
+import Base from '../../../layouts/Base.astro';
+import data from '../../../data/kilimanjaro.json';
+
+type PL = 'de' | 'en' | 'hu';
+const PAGE_LANGS = ['de', 'en', 'hu'] as const;
+export function getStaticPaths() {
+  // getStaticPaths runs on its own, so the list is repeated here
+  return ['de', 'en', 'hu'].map(lang => ({ params: { lang } }));
+}
+const lang = Astro.params.lang as PL;
+const locale = { de: 'de-CH', en: 'en-GB', hu: 'hu-HU' }[lang];
+
+const TOP = 5895;
+const pct = Math.min(1, data.raised / data.goal);
+const alt = Math.round(pct * TOP);
+const num = (n: number) => lang === 'de' ? n.toLocaleString('de-CH').replace(/’/g, "'") : n.toLocaleString(locale);
+const START = '2027-02-19';
+const daysLeft = Math.max(0, Math.ceil((Date.parse(START) - Date.now()) / 86400000));
+const date = (d: string) => new Date(d).toLocaleDateString(locale, { day: 'numeric', month: 'long', year: 'numeric' });
+
+const T = {
+  de: {
+    title: 'Kilimandscharo für Mütter und Babys · Daniel Gergely',
+    desc: 'Ich steige im Februar 2027 auf den Kilimandscharo, für Mütter und Babys in Tansania. Komm mit auf diesen Weg.',
+    kicker: 'Muskathlon Kilimandscharo · 19.02.2027',
+    h1: 'Ich steige für Mütter und Babys in Tansania.',
+    sub: 'Komm mit auf diesen Weg.',
+    cta: 'Jetzt unterstützen', how: 'Wie es funktioniert',
+    facts: ['Machame-Route', '7 Tage', '63 km', `${num(TOP)} m`],
+    whyK: 'Warum', whyH: 'Ein guter Start ins Leben.',
+    why: [
+      'Das Programm für Mütter und Babys begleitet Frauen in Tansania durch die Schwangerschaft und die erste Zeit mit ihrem Kind.',
+      'Bei uns zu Hause unterstützen wir selbst eine Mutter mit ihrem Baby. Mit diesem Aufstieg möchte ich noch mehr Familien diesen Start ermöglichen.',
+    ],
+    climbK: 'Der Aufstieg', climbH: 'So weit sind wir schon.',
+    climbP: `Mein Ziel sind CHF ${num(data.goal)}. Jede Spende bringt uns ein Stück höher.`,
+    raisedLine: (r: string, g: string) => `CHF ${r} von CHF ${g} gesammelt`,
+    asOf: 'Stand', peak: 'Gipfel', height: 'Das entspricht',
+    routeK: 'Der Weg nach oben', routeH: 'Sieben Tage bis zum Dach Afrikas.',
+    route: ['Start am Parktor', 'Über den Wolken', 'Riesenlobelien', 'Gletscher in Sicht', 'Barafu Camp', 'Gipfelnacht', 'Uhuru Peak'],
+    promK: 'Was du bekommst',
+    prom: [
+      ['100 % für Mütter und Babys', 'Jede Spende geht vollständig an das Programm für Mütter und Babys in Tansania.'],
+      ['Steuerabzugsfähig', 'Deine Spende kannst du in der Schweiz von den Steuern abziehen.'],
+      ['Dein Name auf dem Gipfel', `Ich schreibe deinen Namen auf meine Flagge, trage sie bis auf ${num(TOP)} Meter und mache oben ein Foto.`],
+      ['Das Highlight-Video', 'Nach der Reise bekommst du mein Video vom Aufstieg, als Dankeschön.'],
+    ],
+    flagK: 'Die Flagge', flagH: `Dein Name auf ${num(TOP)} Metern.`,
+    flagP: 'Diese Flagge kommt mit bis ganz nach oben. Hier siehst du, wer schon mit dabei ist.',
+    flagEmpty: 'Noch ist sie leer. Dein Name kann der erste sein.',
+    flagNote: 'Hier erscheinen nur Namen von Menschen, die damit einverstanden sind.',
+    updK: 'Updates', updH: 'Unterwegs zum Gipfel.',
+    updP: 'Hier poste ich regelmässig Bilder, Videos und News vom Training und von der Reise.',
+    stepsK: 'So funktioniert es', stepsH: 'In fünf Schritten dabei.',
+    steps: [
+      ['«Jetzt unterstützen» klicken', 'Du landest direkt beim Spendenformular auf meiner Muskathlon-Seite.'],
+      ['Betrag wählen', 'CHF 10, 25, 50, 100 oder ein eigener Betrag. Jede Spende hilft.'],
+      ['Oder eine Patenschaft', `Auf derselben Seite unter «Patenschaft für ein Kind». Eine Patenschaft (CHF 42 im Monat) zählt mit CHF ${num(1000)} für mein Ziel.`],
+      ['Dein Name auf die Flagge', 'Schreib mir kurz, wie dein Name auf der Flagge stehen soll.'],
+      ['Gipfelfoto und Video', 'Nach der Reise bekommst du das Foto der Flagge vom Gipfel und mein Highlight-Video.'],
+    ],
+    write: 'Per WhatsApp', mail: 'Per E-Mail',
+    waysK: 'So kannst du helfen',
+    ways: [['Spenden', 'Einmalig, mit einem Betrag, der für dich passt.'], ['Patenschaft', `Eine Patenschaft (CHF 42 im Monat) zählt mit CHF ${num(1000)} für mein Ziel.`]],
+    waysNote: 'Beides geht über meine Seite bei Muskathlon.',
+    endH: 'Komm mit auf diesen Weg.',
+    made: 'Website und Video von', photos: 'Fotos: Muskathlon 2022, Unsplash',
+    privacy: 'Datenschutz', imprint: 'Impressum', video: 'Teaser-Video vom Aufstieg',
+    mediaK: 'Videos & Bilder', mediaH: 'Teile den Weg mit anderen.', shareTeaser: 'Teaser teilen', share: 'Teilen', download: 'Herunterladen', copied: 'Link kopiert', close: 'Schliessen', prev: 'Zurück', next: 'Weiter',
+    shareText: 'Daniel steigt für Mütter und Babys in Tansania auf den Kilimandscharo. Komm mit:',
+    alti: 'Höhe', summitMsg: 'Gipfel erreicht!',
+    egHint: 'Psst: Tippe 3× auf den Gipfel.', egMsg: 'Uhuru Peak · 5\'895 m. Danke, dass du mitkommst!',
+    dayOne: 'Tag bis zum Start', dayMany: 'Tage bis zum Start', started: 'Unterwegs!',
+  },
+  en: {
+    title: 'Kilimanjaro for mothers and babies · Daniel Gergely',
+    desc: 'In February 2027 I am climbing Kilimanjaro for mothers and babies in Tanzania. Come along on this journey.',
+    kicker: 'Muskathlon Kilimanjaro · 19 Feb 2027',
+    h1: 'I am climbing for mothers and babies in Tanzania.',
+    sub: 'Come along on this journey.',
+    cta: 'Support now', how: 'How it works',
+    facts: ['Machame route', '7 days', '63 km', `${num(TOP)} m`],
+    whyK: 'Why', whyH: 'A good start in life.',
+    why: [
+      'The mothers and babies programme supports women in Tanzania through pregnancy and the first months with their child.',
+      'At home, we support a mother and her baby ourselves. With this climb I want to give more families that start.',
+    ],
+    climbK: 'The climb', climbH: 'How far we have come.',
+    climbP: `My goal is CHF ${num(data.goal)}. Every donation takes us a bit higher.`,
+    raisedLine: (r: string, g: string) => `CHF ${r} of CHF ${g} raised`,
+    asOf: 'As of', peak: 'Summit', height: 'That is',
+    routeK: 'The way up', routeH: 'Seven days to the roof of Africa.',
+    route: ['Start at the park gate', 'Above the clouds', 'Giant lobelias', 'Glaciers in sight', 'Barafu Camp', 'Summit night', 'Uhuru Peak'],
+    promK: 'What you get',
+    prom: [
+      ['100 % for mothers and babies', 'Every donation goes in full to the mothers and babies programme in Tanzania.'],
+      ['Tax-deductible', 'In Switzerland you can deduct your donation from your taxes.'],
+      ['Your name on the summit', `I write your name on my flag, carry it up to ${num(TOP)} metres and take a photo at the top.`],
+      ['The highlight video', 'After the trip you get my video of the climb, as a thank you.'],
+    ],
+    flagK: 'The flag', flagH: `Your name at ${num(TOP)} metres.`,
+    flagP: 'This flag comes with me all the way to the top. Here you can see who is already on board.',
+    flagEmpty: 'It is still empty. Your name could be the first.',
+    flagNote: 'Only names of people who agreed to it are shown here.',
+    updK: 'Updates', updH: 'On the way to the summit.',
+    updP: 'I post photos, videos and news from training and from the trip here regularly.',
+    stepsK: 'How it works', stepsH: 'Five steps to come along.',
+    steps: [
+      ['Click «Support now»', 'You land right at the donation form on my Muskathlon page.'],
+      ['Choose an amount', 'CHF 10, 25, 50, 100 or your own amount. Every donation helps.'],
+      ['Or a sponsorship', `On the same page under «Patenschaft für ein Kind». A sponsorship (CHF 42 a month) counts as CHF ${num(1000)} towards my goal.`],
+      ['Your name on the flag', 'Send me a short message with how your name should appear on the flag.'],
+      ['Summit photo and video', 'After the trip you get the photo of the flag on the summit and my highlight video.'],
+    ],
+    write: 'On WhatsApp', mail: 'By email',
+    waysK: 'How you can help',
+    ways: [['Donate', 'Once, with an amount that works for you.'], ['Sponsorship', `A sponsorship (CHF 42 a month) counts as CHF ${num(1000)} towards my goal.`]],
+    waysNote: 'Both work through my page on Muskathlon.',
+    endH: 'Come along on this journey.',
+    made: 'Website and video by', photos: 'Photos: Muskathlon 2022, Unsplash',
+    privacy: 'Privacy', imprint: 'Imprint', video: 'Teaser video of the climb',
+    mediaK: 'Videos & photos', mediaH: 'Share the journey.', shareTeaser: 'Share the teaser', share: 'Share', download: 'Download', copied: 'Link copied', close: 'Close', prev: 'Previous', next: 'Next',
+    shareText: 'Daniel is climbing Kilimanjaro for mothers and babies in Tanzania. Come along:',
+    alti: 'Altitude', summitMsg: 'Summit reached!',
+    egHint: 'Psst: tap the summit 3 times.', egMsg: 'Uhuru Peak · 5,895 m. Thank you for coming along!',
+    dayOne: 'day to go', dayMany: 'days to go', started: 'On the way!',
+  },
+  hu: {
+    title: 'Kilimandzsáró az édesanyákért és a babákért · Gergely Dániel',
+    desc: '2027 februárjában tanzániai édesanyákért és babákért mászom meg a Kilimandzsárót. Tarts velem!',
+    kicker: 'Muskathlon Kilimandzsáró · 2027. február 19.',
+    h1: 'Tanzániai édesanyákért és babákért mászom meg a Kilimandzsárót.',
+    sub: 'Tarts velem ezen az úton!',
+    cta: 'Támogatom', how: 'Hogyan működik?',
+    facts: ['Machame-útvonal', '7 nap', '63 km', `${num(TOP)} m`],
+    whyK: 'Miért', whyH: 'Esély egy jó kezdetre.',
+    why: [
+      'A program a tanzániai édesanyákat kíséri végig a várandósságon és a baba első hónapjain.',
+      'Családként mi is támogatunk egy édesanyát és a babáját. Ezzel a túrával szeretném, hogy még több család kapjon esélyt egy jó kezdetre.',
+    ],
+    climbK: 'A mászás', climbH: 'Itt tartunk most.',
+    climbP: `A célom ${num(data.goal)} CHF. Minden adomány közelebb visz a csúcshoz.`,
+    raisedLine: (r: string, g: string) => `Eddig összegyűlt: ${r} / ${g} CHF`,
+    asOf: 'Frissítve', peak: 'Csúcs', height: 'Ez nagyjából',
+    routeK: 'Az út felfelé', routeH: 'Hét nap Afrika tetejéig.',
+    route: ['Indulás a park kapujánál', 'A felhők felett', 'Óriás lobéliák', 'Feltűnnek a gleccserek', 'Barafu tábor', 'A csúcséjszaka', 'Uhuru Peak'],
+    promK: 'Amit cserébe kapsz',
+    prom: [
+      ['A teljes összeg az anyákhoz és babákhoz kerül', 'Minden adomány teljes egészében a tanzániai anya–baba programot támogatja.'],
+      ['Adókedvezmény', 'Svájcban az adomány levonható az adóból.'],
+      ['A neved a csúcson', `Felírom a neved a zászlómra, felviszem ${num(TOP)} méterre, és ott fent lefotózom.`],
+      ['Videó a mászásról', 'Hazaérkezésem után köszönetként megkapod a mászásról készült videót.'],
+    ],
+    flagK: 'A zászló', flagH: `A neved ${num(TOP)} méteren.`,
+    flagP: 'Ez a zászló velem jön egészen a csúcsig. Itt láthatod, kiknek a neve van már rajta.',
+    flagEmpty: 'Még üres. Lehet, hogy a te neved lesz rajta az első!',
+    flagNote: 'Csak azok neve jelenik meg itt, akik ehhez hozzájárultak.',
+    updK: 'Hírek', updH: 'Úton a csúcs felé.',
+    updP: 'Itt rendszeresen megosztom a képeket, videókat és híreket az edzésekről és az útról.',
+    stepsK: 'Hogyan működik?', stepsH: 'Öt egyszerű lépés.',
+    steps: [
+      ['Kattints a „Támogatom” gombra', 'Egyenesen a Muskathlon-oldalam adományozási űrlapjához jutsz.'],
+      ['Válassz összeget', '10, 25, 50, 100 CHF vagy tetszőleges összeg. Minden adomány számít.'],
+      ['Vagy válaszd a gyermektámogatást', `Ugyanezen az oldalon, a „Patenschaft für ein Kind” résznél. Egy támogatás (havi 42 CHF) ${num(1000)} CHF-nak számít a célomban.`],
+      ['Kerüljön fel a neved a zászlóra', 'Írd meg nekem röviden, milyen névvel szerepelj a zászlón.'],
+      ['Csúcsfotó és videó', 'Az út után megkapod a zászlóról a csúcson készült fotót és a videómat.'],
+    ],
+    write: 'WhatsAppon', mail: 'E-mailben',
+    waysK: 'Így segíthetsz',
+    ways: [['Adomány', 'Egyszeri, tetszőleges összeggel.'], ['Gyermektámogatás', `Egy támogatás (havi 42 CHF) ${num(1000)} CHF-nak számít a célomban.`]],
+    waysNote: 'Mindkettő a Muskathlon-oldalamon keresztül működik.',
+    endH: 'Tarts velem ezen az úton!',
+    made: 'Weboldal és videó:', photos: 'Fotók: Muskathlon 2022, Unsplash',
+    privacy: 'Adatvédelem', imprint: 'Impresszum', video: 'Teaser videó a mászásról',
+    mediaK: 'Videók és képek', mediaH: 'Oszd meg az utat másokkal is.', shareTeaser: 'Teaser megosztása', share: 'Megosztás', download: 'Letöltés', copied: 'Link másolva', close: 'Bezárás', prev: 'Előző', next: 'Következő',
+    shareText: 'Dániel tanzániai édesanyákért és babákért mássza meg a Kilimandzsárót. Tarts vele:',
+    alti: 'Magasság', summitMsg: 'Csúcson vagyunk!',
+    egHint: 'Psszt: koppints háromszor a csúcsra.', egMsg: 'Uhuru Peak · 5895 m. Köszönöm, hogy velem tartasz!',
+    dayOne: 'nap az indulásig', dayMany: 'nap az indulásig', started: 'Úton vagyunk!',
+  },
+}[lang];
+
+const ROUTE = [
+  ['route-gate', 1800], ['route-shira', 3850], ['route-lobelia', 3960], ['route-trail', 4600],
+  ['route-barafu', 4673], ['route-dawn', 5600], ['route-summit-trail', 5895],
+] as const;
+
+// Kibo silhouette in a 600x300 box; the fill rises with the amount raised.
+const MOUNTAIN = 'M0 300 L120 228 L170 205 L215 168 L250 120 L272 92 L300 80 L338 78 L362 86 L392 118 L430 160 L480 200 L540 240 L600 268 L600 300 Z';
+const BASE_Y = 300, PEAK_Y = 78;
+const levelY = BASE_Y - pct * (BASE_Y - PEAK_Y);
+const STATIONS = [[1286, 'Weissenstein'], [2128, 'Pilatus'], [2971, 'Glacier 3000']] as const;
+const yFor = (m: number) => BASE_Y - (m / TOP) * (BASE_Y - PEAK_Y);
+
+type Media = { type: 'video' | 'image'; src: string; poster?: string; date: string; title: Record<PL, string> };
+const MEDIA = ((data as { media?: Media[] }).media ?? []).map(m => ({ type: m.type, src: `/kilimanjaro/${m.src}`, poster: m.poster ? `/kilimanjaro/${m.poster}` : undefined, when: date(m.date), title: m.title[lang] ?? m.title.en }));
+type Update = { date: string; image?: string; video?: string } & Partial<Record<PL, { title: string; text: string }>>;
+const UPDATES = ((data as { updates?: Update[] }).updates ?? []).map(u => ({ ...u, when: date(u.date), t: (u[lang] ?? u.en)! }));
+---
+<Base lang={lang} title={T.title} description={T.desc} path="kilimanjaro/" langs={PAGE_LANGS} ogImage="/kilimanjaro/og.jpg">
+  <main class="kili">
+    <header class="hero">
+      <div class="hero-bg" aria-hidden="true"></div>
+      <nav class="top wrap">
+        <a href={`/${lang}/`} class="brand">Grace Labs</a>
+        <span class="d-lang">
+          {PAGE_LANGS.map(l => <a href={`/${l}/kilimanjaro/`} hreflang={l} lang={l} class={l === lang ? 'on' : undefined}>{l.toUpperCase()}</a>)}
+        </span>
+      </nav>
+      <div class="hero-txt wrap">
+        <p class="k">{T.kicker}</p>
+        <h1>{T.h1}</h1>
+        <p class="sub">{T.sub}</p>
+        <div class="btns">
+          <a class="btn primary" href={data.donateUrl} target="_blank" rel="noopener">{T.cta} ↗</a>
+          <a class="btn ghost" href="#how">{T.how}</a>
+        </div>
+        <ul class="facts">{T.facts.map(f => <li>{f}</li>)}</ul>
+      </div>
+      <div class="count" data-start={START} data-one={T.dayOne} data-many={T.dayMany} data-started={T.started}>
+        <b>{daysLeft > 0 ? daysLeft : '✓'}</b>
+        <span>{daysLeft > 0 ? (daysLeft === 1 ? T.dayOne : T.dayMany) : T.started}</span>
+      </div>
+    </header>
+
+    <section class="light">
+      <div class="wrap two">
+        <div class="rv">
+          <p class="k">{T.whyK}</p>
+          <h2>{T.whyH}</h2>
+          {T.why.map(p => <p class="body">{p}</p>)}
+        </div>
+        <figure class="pic rv"><img src="/kilimanjaro/img/kili-zebras.jpg" alt="" loading="lazy" /></figure>
+      </div>
+    </section>
+
+    <section class="dark">
+      <div class="wrap climb">
+        <div class="rv climb-grid">
+          <p class="k">{T.climbK}</p>
+          <h2>{T.climbH}</h2>
+          <p class="body">{T.climbP}</p>
+          <figure class="meter" data-level={levelY.toFixed(1)}>
+            <svg viewBox="0 0 600 300" role="img" aria-label={T.raisedLine(num(data.raised), num(data.goal))}>
+              <defs>
+                <clipPath id="mtn"><path d={MOUNTAIN} /></clipPath>
+                <linearGradient id="fillg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffd06b" /><stop offset="1" stop-color="#e58a2e" /></linearGradient>
+              </defs>
+              <path d={MOUNTAIN} fill="#1f1d24" stroke="rgba(255,255,255,.2)" stroke-width="1.5" />
+              <rect class="fill" clip-path="url(#mtn)" x="0" y={levelY} width="600" height={BASE_Y - levelY} fill="url(#fillg)" />
+              {STATIONS.map(([m, n]) => <g class="st"><line x1="0" x2="600" y1={yFor(m)} y2={yFor(m)} /><text x="596" y={yFor(m) - 6} text-anchor="end">{n} · {num(m)} m</text></g>)}
+              <g class="st peak"><text x="300" y={PEAK_Y - 12} text-anchor="middle">{T.peak} · {num(TOP)} m</text></g>
+              <g class="eg-flag" aria-hidden="true"><line x1="318" y1="78" x2="318" y2="34" stroke="#f2efe9" stroke-width="2.5" /><path d="M318 35 L346 42 L318 50 Z" fill="#ffd06b" /></g>
+              <circle class="eg-hit" cx="318" cy="84" r="34" fill="transparent" tabindex="0" role="button" aria-label={T.egHint} />
+            </svg>
+            <p class="eg-hint">{T.egHint}</p>
+            <p class="eg-msg" aria-live="polite" data-msg={T.egMsg}></p>
+            <figcaption>
+              <b>{T.raisedLine(num(data.raised), num(data.goal))}</b>
+              <small>{pct > 0 ? `${T.height} ${num(alt)} m · ` : ''}{T.asOf} {date(data.updated)}</small>
+            </figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <section class="media dark" id="media">
+      <div class="wrap media-head rv">
+        <div><p class="k">{T.mediaK}</p><h2>{T.mediaH}</h2></div>
+        <div class="arrows">
+          <button type="button" class="arr" data-dir="-1" aria-label={T.prev}>←</button>
+          <button type="button" class="arr" data-dir="1" aria-label={T.next}>→</button>
+        </div>
+      </div>
+      <ul class="carousel">
+        {MEDIA.map((m, i) => (
+          <li>
+            <button type="button" class="mcard" data-i={i} aria-label={m.title}>
+              <img src={m.poster ?? m.src} alt="" loading={i < 3 ? 'eager' : 'lazy'} />
+              {m.type === 'video' && <span class="play" aria-hidden="true">▶</span>}
+              <span class="cap"><time>{m.when}</time><b>{m.title}</b></span>
+            </button>
+          </li>
+        ))}
+      </ul>
+      <div class="wrap share-row">
+        <button type="button" class="btn primary share-main">{T.shareTeaser} ↗</button>
+      </div>
+      <script type="application/json" id="media-data" set:html={JSON.stringify({ items: MEDIA, t: { share: T.share, download: T.download, copied: T.copied, close: T.close, text: T.shareText, title: T.title } })}></script>
+      <dialog class="lightbox">
+        <div class="lb-media"></div>
+        <div class="lb-bar">
+          <b class="lb-title"></b>
+          <div class="lb-actions">
+            <button type="button" class="lb-share">{T.share} ↗</button>
+            <a class="lb-dl" download>{T.download}</a>
+            <button type="button" class="lb-close" aria-label={T.close}>✕</button>
+          </div>
+        </div>
+      </dialog>
+      <p class="toast" role="status" aria-live="polite"></p>
+    </section>
+
+    <section class="route dark">
+      <div class="wrap rv">
+        <p class="k">{T.routeK}</p>
+        <h2>{T.routeH}</h2>
+      </div>
+      <ol class="strip">
+        {ROUTE.map(([img, m], i) => (
+          <li class="rv" style={`--d:${i * 70}ms`}>
+            <img src={`/kilimanjaro/img/${img}.jpg`} alt={T.route[i]} />
+            <span><b>{num(m)} m</b>{T.route[i]}</span>
+          </li>
+        ))}
+      </ol>
+    </section>
+
+    <section class="light">
+      <div class="wrap">
+        <p class="k rv">{T.promK}</p>
+        <div class="grid four">
+          {T.prom.map(([h, p], i) => <div class="card rv" style={`--d:${i * 90}ms`}><span class="n">{i + 1}</span><h3>{h}</h3><p>{p}</p></div>)}
+        </div>
+      </div>
+    </section>
+
+    <section class="light steps-sec" id="how">
+      <div class="wrap two top-align">
+        <div class="rv">
+          <p class="k">{T.stepsK}</p>
+          <h2>{T.stepsH}</h2>
+          <a class="btn primary" href={data.donateUrl} target="_blank" rel="noopener">{T.cta} ↗</a>
+        </div>
+        <ol class="steps rv">
+          {T.steps.map(([h, p], i) => (
+            <li>
+              <span class="n">{i + 1}</span>
+              <div>
+                <h3>{h}</h3>
+                <p>{p}</p>
+                {i === 3 && <p class="contact"><a href="/whatsapp" target="_blank" rel="noopener">{T.write} ↗</a><a href="mailto:hello@gracelabs.dev">{T.mail}: hello@gracelabs.dev</a></p>}
+              </div>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </section>
+
+    <section class="cream" id="flag">
+      <div class="wrap two flagrow">
+        <div class="rv">
+          <p class="k">{T.flagK}</p>
+          <h2>{T.flagH}</h2>
+          <p class="body">{T.flagP}</p>
+          <p class="note">{T.flagNote}</p>
+        </div>
+        <div class="cloth-wrap rv">
+          <div class="pole"></div>
+          <div class="cloth">
+            {data.names.length
+              ? <ul>{(data.names as string[]).map((n, i) => <li style={`--r:${((i * 37) % 11) - 5}deg`}>{n}</li>)}</ul>
+              : <p class="empty">{T.flagEmpty}</p>}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="dark">
+      <div class="wrap">
+        <div class="rv" id="updates">
+          <p class="k">{T.updK}</p>
+          <h2>{T.updH}</h2>
+          <p class="body">{T.updP}</p>
+          <ol class="feed">
+            {UPDATES.map(u => (
+              <li>
+                <time datetime={u.date}>{u.when}</time>
+                <h3>{u.t.title}</h3>
+                <p>{u.t.text}</p>
+                {u.image && <img src={`/kilimanjaro/${u.image}`} alt={u.t.title} loading="lazy" />}
+                {u.video && <video controls playsinline preload="none" src={`/kilimanjaro/${u.video}`}></video>}
+              </li>
+            ))}
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <section class="end">
+      <div class="end-bg" aria-hidden="true"></div>
+      <div class="wrap rv">
+        <h2>{T.endH}</h2>
+        <a class="btn primary" href={data.donateUrl} target="_blank" rel="noopener">{T.cta} ↗</a>
+      </div>
+    </section>
+
+    <div class="alti" aria-hidden="true" data-top={TOP} data-summit={T.summitMsg}>
+      <svg viewBox="0 0 24 24" width="18" height="18"><path d="M2 20 L9 8 L13 14 L16 10 L22 20 Z" fill="currentColor" /></svg>
+      <span><small>{T.alti}</small><b>0 m</b></span>
+    </div>
+
+    <footer class="foot wrap">
+      <span>{T.made} <a href={`/${lang}/`} class="gl">Grace Labs ↗</a></span>
+      <span class="credits">{T.photos}</span>
+      <span><a href={`/${lang}/privacy/`}>{T.privacy}</a> · <a href={`/${lang}/imprint/`}>{T.imprint}</a></span>
+    </footer>
+  </main>
+</Base>
+
+<script>
+  // Reveal sections as they scroll in, and fill the barometer once it is visible.
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const els = document.querySelectorAll<HTMLElement>('.kili .rv');
+  if (reduce || !('IntersectionObserver' in window)) {
+    els.forEach(e => e.classList.add('in'));
+  } else {
+    document.documentElement.classList.add('rv-on');
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(en => { if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); } });
+    }, { rootMargin: '0px 0px -10% 0px' });
+    els.forEach(e => io.observe(e));
+  }
+  const meter = document.querySelector<HTMLElement>('.meter');
+  const fill = meter?.querySelector<SVGRectElement>('.fill');
+  if (meter && fill && !reduce && 'IntersectionObserver' in window) {
+    const level = Number(meter.dataset.level);
+    fill.setAttribute('y', '300'); fill.setAttribute('height', '0');
+    const mo = new IntersectionObserver(([en]) => {
+      if (!en.isIntersecting) return;
+      mo.disconnect();
+      const t0 = performance.now(), dur = 1800;
+      const step = (now: number) => {
+        const k = Math.min(1, (now - t0) / dur), e = 1 - Math.pow(1 - k, 3), y = 300 - e * (300 - level);
+        fill.setAttribute('y', String(y)); fill.setAttribute('height', String(300 - y));
+        if (k < 1) requestAnimationFrame(step);
+      };
+      requestAnimationFrame(step);
+    }, { threshold: 0.5 });
+    mo.observe(meter);
+  }
+  // Countdown to the start, refreshed in the browser so it never goes stale.
+  const cnt = document.querySelector<HTMLElement>('.count');
+  if (cnt) {
+    const left = Math.ceil((Date.parse(cnt.dataset.start!) - Date.now()) / 86400000);
+    cnt.querySelector('b')!.textContent = left > 0 ? String(left) : '✓';
+    cnt.querySelector('span')!.textContent = left <= 0 ? cnt.dataset.started! : left === 1 ? cnt.dataset.one! : cnt.dataset.many!;
+  }
+
+  // Scroll altimeter: 0 m at the top of the page, the summit at the bottom.
+  const alti = document.querySelector<HTMLElement>('.alti');
+  if (alti) {
+    const top = Number(alti.dataset.top), out = alti.querySelector('b')!, lang = document.documentElement.lang;
+    const fmt = (n: number) => lang === 'de' ? n.toLocaleString('de-CH').replace(/’/g, "'") : n.toLocaleString(lang === 'hu' ? 'hu-HU' : 'en-GB');
+    let ticking = false;
+    const update = () => {
+      ticking = false;
+      const max = document.documentElement.scrollHeight - innerHeight;
+      const k = max > 0 ? Math.min(1, Math.max(0, scrollY / max)) : 0;
+      alti.classList.toggle('show', scrollY > innerHeight * 0.5);
+      alti.classList.toggle('peak', k > 0.985);
+      out.textContent = k > 0.985 ? `${fmt(top)} m · ${alti.dataset.summit}` : `${fmt(Math.round(k * top / 10) * 10)} m`;
+    };
+    addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
+    update();
+  }
+
+  // Easter egg: three taps on the summit plant the flag.
+  const hit = document.querySelector<SVGCircleElement>('.eg-hit');
+  const fig = document.querySelector<HTMLElement>('.meter');
+  if (hit && fig) {
+    let taps = 0, timer = 0;
+    const plant = () => {
+      if (fig.classList.contains('planted')) return;
+      fig.classList.add('planted');
+      const msg = fig.querySelector<HTMLElement>('.eg-msg')!; msg.textContent = msg.dataset.msg!;
+      if (reduce) return;
+      const colors = ['#ffd06b', '#e58a2e', '#f2efe9', '#c8102e', '#00843d'];
+      for (let i = 0; i < 40; i++) {
+        const c = document.createElement('i');
+        c.className = 'confetti';
+        c.style.left = `${53 + (Math.random() * 12 - 6)}%`;
+        c.style.setProperty('--x', `${Math.random() * 260 - 130}px`);
+        c.style.setProperty('--y', `${-80 - Math.random() * 140}px`);
+        c.style.setProperty('--r', `${Math.random() * 720 - 360}deg`);
+        c.style.background = colors[i % colors.length];
+        c.style.animationDelay = `${Math.random() * 120}ms`;
+        fig.appendChild(c);
+        setTimeout(() => c.remove(), 1800);
+      }
+    };
+    const tap = () => { taps++; clearTimeout(timer); timer = window.setTimeout(() => { taps = 0; }, 900); if (taps >= 3) { taps = 0; plant(); } };
+    hit.addEventListener('click', tap);
+    hit.addEventListener('keydown', e => { if ((e as KeyboardEvent).key === 'Enter' || (e as KeyboardEvent).key === ' ') { e.preventDefault(); tap(); } });
+  }
+
+  // Media gallery: carousel, lightbox and sharing (the video file itself where the phone allows it).
+  const md = document.getElementById('media-data');
+  if (md) {
+    type Item = { type: 'video' | 'image'; src: string; poster?: string; when: string; title: string };
+    const { items, t } = JSON.parse(md.textContent!) as { items: Item[]; t: Record<string, string> };
+    const track = document.querySelector<HTMLElement>('.carousel')!;
+    const dlg = document.querySelector<HTMLDialogElement>('.lightbox')!;
+    const box = dlg.querySelector<HTMLElement>('.lb-media')!;
+    const toast = document.querySelector<HTMLElement>('.toast')!;
+    const pageUrl = location.origin + location.pathname;
+    const files = new Map<string, File>();
+    let current: Item = items[0];
+    const say = (msg: string) => { toast.textContent = msg; toast.classList.add('on'); setTimeout(() => toast.classList.remove('on'), 2200); };
+    const prefetch = (it: Item) => {
+      if (it.type !== 'video' || files.has(it.src) || !('canShare' in navigator)) return;
+      fetch(it.src).then(r => r.blob()).then(b => {
+        const f = new File([b], it.src.split('/').pop()!, { type: 'video/mp4' });
+        if (navigator.canShare({ files: [f] })) files.set(it.src, f);
+      }).catch(() => {});
+    };
+    const share = async (it: Item | null) => {
+      const data: ShareData = { title: t.title, text: t.text, url: pageUrl };
+      try {
+        const f = it ? files.get(it.src) : undefined;
+        if (f) { await navigator.share({ files: [f], title: t.title, text: `${t.text} ${pageUrl}` }); return; }
+        if (navigator.share) { await navigator.share(data); return; }
+        await navigator.clipboard.writeText(pageUrl); say(t.copied);
+      } catch (e) {
+        if ((e as Error).name === 'AbortError') return;
+        try { await navigator.clipboard.writeText(pageUrl); say(t.copied); } catch {}
+      }
+    };
+    const open = (i: number) => {
+      current = items[i];
+      box.innerHTML = '';
+      if (current.type === 'video') {
+        const v = document.createElement('video');
+        v.src = current.src; v.controls = true; v.playsInline = true; v.autoplay = true; if (current.poster) v.poster = current.poster;
+        box.appendChild(v); prefetch(current);
+      } else {
+        const img = document.createElement('img'); img.src = current.src; img.alt = current.title; box.appendChild(img);
+      }
+      dlg.querySelector('.lb-title')!.textContent = current.title;
+      dlg.querySelector<HTMLAnchorElement>('.lb-dl')!.href = current.src;
+      dlg.showModal();
+    };
+    const closeDlg = () => { box.querySelector('video')?.pause(); dlg.close(); };
+    track.querySelectorAll<HTMLButtonElement>('.mcard').forEach(b => b.addEventListener('click', () => open(Number(b.dataset.i))));
+    dlg.querySelector('.lb-close')!.addEventListener('click', closeDlg);
+    dlg.addEventListener('click', e => { if (e.target === dlg) closeDlg(); });
+    dlg.addEventListener('close', () => box.querySelector('video')?.pause());
+    dlg.querySelector('.lb-share')!.addEventListener('click', () => share(current));
+    document.querySelector('.share-main')!.addEventListener('click', () => share(items.find(x => x.type === 'video') ?? null));
+    document.querySelectorAll<HTMLButtonElement>('.arr').forEach(b => b.addEventListener('click', () => {
+      const card = track.querySelector('li');
+      track.scrollBy({ left: Number(b.dataset.dir) * ((card?.clientWidth ?? 300) + 16), behavior: reduce ? 'auto' : 'smooth' });
+    }));
+  }
+
+  document.querySelectorAll<HTMLAnchorElement>('.d-lang a').forEach(a =>
+    a.addEventListener('click', () => { try { localStorage.setItem('gl-lang', a.lang); } catch {} }));
+</script>
+
+<style>
+  .kili { --gold: #ffd06b; --ink: #f2efe9; --mute: #bdb6ab; --cream: #f5efe4; --dark-ink: #2b2622; --dark-mute: #6d6458; overflow-x: clip; }
+  .wrap { width: min(1240px, 100%); margin: 0 auto; padding-left: max(24px, 5vw); padding-right: max(24px, 5vw); box-sizing: border-box; }
+  .k { color: var(--gold); }
+  section { position: relative; padding: clamp(56px, 8vh, 96px) 0; }
+  section h2 { font-size: clamp(32px, 4vw, 54px); line-height: 1.05; margin-bottom: 16px; text-wrap: balance; }
+  .body { font-size: clamp(17px, 1.4vw, 20px); line-height: 1.65; margin-bottom: 14px; max-width: 60ch; }
+  .note { font-size: 15px; margin-top: 16px; }
+  .two { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(28px, 5vw, 72px); align-items: center; }
+  .two.top-align { align-items: start; }
+  .light { background: var(--cream); color: var(--dark-ink); }
+  .light .k, .cream .k { color: #b56a12; }
+  .light .body, .cream .body { color: #3d3730; }
+  .cream { background: linear-gradient(180deg, #efe6d4, #f7f1e6); color: var(--dark-ink); }
+  .cream .note { color: var(--dark-mute); }
+  .dark { background: #0c0b0f; }
+  .dark .body { color: #e2ddd5; }
+  .dark .note { color: var(--mute); }
+  .hero { position: relative; min-height: min(100svh, 860px); display: flex; flex-direction: column; color: #fff; overflow: hidden; }
+  .hero-bg { position: absolute; inset: 0; background: url('/kilimanjaro/img/hero.jpg') center 60% / cover no-repeat; animation: drift 24s ease-out both; }
+  .hero::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(8,8,11,.55) 0%, rgba(8,8,11,.12) 32%, rgba(8,8,11,.5) 68%, rgba(8,8,11,.9) 100%); }
+  @keyframes drift { from { transform: scale(1.12); } to { transform: scale(1); } }
+  .top { position: relative; z-index: 2; display: flex; justify-content: space-between; align-items: center; padding-top: 22px; padding-bottom: 22px; }
+  .top .brand { font: 500 20px 'Fraunces Variable', serif; color: #fff; text-decoration: none; }
+  .hero-txt { position: relative; z-index: 2; margin-top: auto; padding-bottom: 7vh; }
+  .hero h1 { font-size: clamp(42px, 6.4vw, 96px); line-height: 1.02; max-width: 15ch; text-wrap: balance; text-shadow: 0 2px 30px rgba(0,0,0,.35); }
+  .hero .sub { font: italic 300 clamp(24px, 2.6vw, 36px)/1.2 'Fraunces Variable', serif; color: #ffe2b8; margin: 18px 0 30px; }
+  .btns { display: flex; gap: 12px; flex-wrap: wrap; }
+  .btn { display: inline-block; padding: 15px 26px; border-radius: 99px; font-weight: 600; font-size: 16px; text-decoration: none; transition: transform .2s; }
+  .btn:hover { transform: translateY(-2px); }
+  .btn.primary { background: var(--gold); color: #1a1208; box-shadow: 0 10px 30px -10px rgba(255,208,107,.6); }
+  .btn.ghost { border: 1px solid rgba(255,255,255,.5); color: #fff; background: rgba(0,0,0,.15); backdrop-filter: blur(6px); }
+  .facts { list-style: none; padding: 0; margin: 34px 0 0; display: flex; gap: 8px; flex-wrap: wrap; }
+  .facts li { padding: 7px 14px; border-radius: 99px; border: 1px solid rgba(255,255,255,.35); background: rgba(0,0,0,.25); backdrop-filter: blur(6px); font-size: 14px; }
+  .pic { margin: 0; border-radius: 22px; overflow: hidden; aspect-ratio: 4 / 3; box-shadow: 0 30px 60px -30px rgba(43,38,34,.5); }
+  .pic img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .climb-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr); column-gap: clamp(28px, 5vw, 72px); align-items: center; }
+  .climb-grid > :not(.meter) { grid-column: 1; }
+  .climb-grid .meter { grid-column: 2; grid-row: 1 / span 3; margin: 0; }
+  .media { padding-bottom: clamp(48px, 7vh, 80px); }
+  .media-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 20px; }
+  .arrows { display: flex; gap: 8px; margin-bottom: 18px; }
+  .arr { width: 46px; height: 46px; border-radius: 50%; border: 1px solid rgba(255,255,255,.25); background: rgba(255,255,255,.05); color: var(--ink); font-size: 20px; cursor: pointer; }
+  .arr:hover { border-color: var(--gold); color: var(--gold); }
+  .carousel { list-style: none; margin: 18px 0 0; padding: 4px max(24px, 5vw) 8px calc(max(24px, 5vw) + max(0px, (100vw - 1240px) / 2)); scroll-padding-left: calc(max(24px, 5vw) + max(0px, (100vw - 1240px) / 2)); display: grid; grid-auto-flow: column; grid-auto-columns: clamp(200px, 22vw, 280px); gap: 16px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; }
+  .carousel::-webkit-scrollbar { display: none; }
+  .carousel li { scroll-snap-align: start; }
+  .mcard { position: relative; display: block; width: 100%; aspect-ratio: 9 / 16; padding: 0; border: 0; border-radius: 20px; overflow: hidden; cursor: pointer; background: #000; box-shadow: 0 20px 40px -24px rgba(0,0,0,.8); transition: transform .35s cubic-bezier(.2,.7,.2,1), box-shadow .35s; }
+  .mcard:hover { transform: translateY(-6px) rotate(-.6deg); box-shadow: 0 28px 50px -22px rgba(255,208,107,.35); }
+  .mcard img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .mcard .play { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 64px; height: 64px; border-radius: 50%; display: grid; place-items: center; padding-left: 4px; box-sizing: border-box; background: rgba(255,208,107,.92); color: #1a1208; font-size: 22px; box-shadow: 0 0 0 10px rgba(255,208,107,.2); }
+  .mcard .cap { position: absolute; left: 0; right: 0; bottom: 0; padding: 50px 16px 16px; background: linear-gradient(transparent, rgba(0,0,0,.85)); color: #fff; text-align: left; display: flex; flex-direction: column; gap: 4px; }
+  .mcard time { color: var(--gold); font-size: 12px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; }
+  .mcard b { font: 400 19px/1.2 'Fraunces Variable', serif; }
+  .share-row { margin-top: 22px; }
+  .share-row .btn { border: 0; cursor: pointer; font-family: inherit; }
+  .lightbox { padding: 0; border: 0; border-radius: 22px; background: #0c0b0f; color: var(--ink); max-width: min(92vw, 520px); width: 100%; overflow: hidden; }
+  .lightbox::backdrop { background: rgba(0,0,0,.8); backdrop-filter: blur(6px); }
+  .lb-media video, .lb-media img { display: block; width: 100%; max-height: 78vh; object-fit: contain; background: #000; }
+  .lb-bar { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 14px 16px; flex-wrap: wrap; }
+  .lb-title { font: 400 19px 'Fraunces Variable', serif; }
+  .lb-actions { display: flex; gap: 8px; align-items: center; }
+  .lb-actions button, .lb-actions a { border: 1px solid rgba(255,255,255,.25); background: rgba(255,255,255,.05); color: var(--ink); border-radius: 99px; padding: 8px 14px; font: 600 14px 'Inter Variable', sans-serif; cursor: pointer; text-decoration: none; }
+  .lb-actions .lb-share { background: var(--gold); color: #1a1208; border-color: var(--gold); }
+  .toast { position: fixed; left: 50%; bottom: 90px; transform: translate(-50%, 20px); z-index: 30; margin: 0; padding: 10px 18px; border-radius: 99px; background: var(--gold); color: #1a1208; font-weight: 600; opacity: 0; transition: opacity .3s, transform .3s; pointer-events: none; }
+  :global(.toast.on) { opacity: 1; transform: translate(-50%, 0); }
+  .meter { margin: 26px 0 0; }
+  .meter svg { width: 100%; height: auto; display: block; }
+  .meter .st line { stroke: rgba(255,255,255,.14); stroke-dasharray: 4 6; }
+  .meter .st text { fill: #d8d2c8; font: 600 13px 'Inter Variable', sans-serif; letter-spacing: .03em; paint-order: stroke; stroke: #0c0b0f; stroke-width: 4px; stroke-linejoin: round; }
+  .meter .peak text { fill: var(--gold); }
+  .meter figcaption { margin-top: 16px; font-size: 18px; color: #e2ddd5; }
+  .meter figcaption b { color: var(--gold); font-size: 22px; font-weight: 600; }
+  .meter figcaption small { display: block; color: var(--mute); font-size: 13px; margin-top: 4px; }
+  .route { padding-bottom: clamp(56px, 8vh, 96px); }
+  .strip { list-style: none; margin: 24px 0 0; padding: 0 max(24px, 5vw) 0 calc(max(24px, 5vw) + max(0px, (100vw - 1240px) / 2)); scroll-padding-left: calc(max(24px, 5vw) + max(0px, (100vw - 1240px) / 2)); display: grid; grid-auto-flow: column; grid-auto-columns: min(320px, 76vw); gap: 16px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; }
+  .strip::-webkit-scrollbar { display: none; }
+  .strip li { position: relative; scroll-snap-align: start; border-radius: 18px; overflow: hidden; aspect-ratio: 3 / 4; }
+  .strip img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .6s; }
+  .strip li:hover img { transform: scale(1.05); }
+  .strip span { position: absolute; left: 0; right: 0; bottom: 0; padding: 40px 18px 16px; background: linear-gradient(transparent, rgba(0,0,0,.8)); color: #fff; font-size: 15px; display: flex; flex-direction: column; gap: 2px; }
+  .strip span b { color: var(--gold); font: 600 14px 'Inter Variable', sans-serif; letter-spacing: .08em; }
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 10px; }
+  .grid.four { grid-template-columns: repeat(4, 1fr); }
+  .card { padding: 26px; border-radius: 20px; background: #fff; box-shadow: 0 20px 40px -28px rgba(43,38,34,.45); }
+  .card .n { display: inline-grid; place-items: center; width: 36px; height: 36px; border-radius: 50%; background: var(--gold); color: #1a1208; font: 500 18px 'Fraunces Variable', serif; margin-bottom: 14px; }
+  .card h3 { font-size: 24px; line-height: 1.15; margin-bottom: 8px; color: var(--dark-ink); }
+  .card p { color: #514a42; font-size: 16px; line-height: 1.55; }
+  .card.dk { background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.09); box-shadow: none; }
+  .card.dk h3 { color: var(--ink); }
+  .card.dk p { color: #d3cec6; }
+  .cloth-wrap { display: flex; align-items: flex-start; }
+  .pole { width: 9px; height: 320px; border-radius: 4px; background: linear-gradient(90deg, #6b6156, #c9bfae, #6b6156); flex: none; }
+  .cloth { flex: 1; min-height: 220px; margin-top: 12px; padding: 30px 32px; border-radius: 4px 12px 12px 4px; color: var(--dark-ink); transform-origin: left center;
+    background: linear-gradient(100deg, #fffdf8 0%, #f1eadb 18%, #fffaf0 36%, #ece4d2 58%, #fbf6ec 80%, #ede5d3 100%);
+    box-shadow: 0 24px 60px -24px rgba(43,38,34,.55); animation: wave 6s ease-in-out infinite; }
+  @keyframes wave { 50% { transform: skewY(-1.2deg) scaleX(.985); } }
+  .cloth ul { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 6px 22px; }
+  .cloth li { font: 700 clamp(22px, 2.4vw, 32px) 'Caveat Variable', cursive; transform: rotate(var(--r)); }
+  .cloth .empty { font: 700 clamp(26px, 2.8vw, 36px)/1.3 'Caveat Variable', cursive; color: var(--dark-mute); text-align: center; padding-top: 40px; }
+  .steps { list-style: none; padding: 0; margin: 0; display: grid; gap: 12px; }
+  .steps li { display: grid; grid-template-columns: 44px 1fr; gap: 16px; padding: 20px 22px; border-radius: 18px; background: #fff; box-shadow: 0 18px 36px -28px rgba(43,38,34,.45); }
+  .steps .n { width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center; background: var(--gold); color: #1a1208; font: 500 19px 'Fraunces Variable', serif; }
+  .steps h3 { font-size: 22px; line-height: 1.2; margin: 6px 0 6px; color: var(--dark-ink); }
+  .steps p { color: #514a42; font-size: 16px; line-height: 1.55; }
+  .steps .contact { display: flex; flex-wrap: wrap; gap: 8px 16px; margin-top: 10px; }
+  .steps .contact a { color: #b56a12; font-weight: 600; text-decoration: none; }
+  .steps-sec .btn { margin-top: 10px; }
+  .feed { list-style: none; padding: 0; margin: 22px 0 0; display: grid; gap: 14px; border-left: 2px solid rgba(255,208,107,.35); }
+  .feed li { position: relative; padding: 4px 0 8px 24px; }
+  .feed li::before { content: ''; position: absolute; left: -7px; top: 9px; width: 12px; height: 12px; border-radius: 50%; background: var(--gold); }
+  .feed time { color: var(--gold); font-size: 13px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; }
+  .feed h3 { font-size: 26px; line-height: 1.15; margin: 6px 0 8px; }
+  .feed p { color: #d3cec6; font-size: 17px; line-height: 1.6; max-width: 60ch; }
+  .feed img, .feed video { margin-top: 14px; width: min(420px, 100%); border-radius: 14px; display: block; }
+  .end { text-align: center; padding: clamp(80px, 14vh, 150px) 0; color: #fff; overflow: hidden; }
+  .end-bg { position: absolute; inset: 0; background: url('/kilimanjaro/img/savanna.jpg') center / cover no-repeat; }
+  .end::after { content: ''; position: absolute; inset: 0; background: rgba(8,8,11,.45); }
+  .end .wrap { position: relative; z-index: 1; }
+  .end h2 { margin-bottom: 30px; text-shadow: 0 2px 30px rgba(0,0,0,.4); }
+  .count { position: absolute; z-index: 2; right: max(24px, 5vw, calc((100vw - 1240px) / 2 + 5vw)); bottom: 9vh; display: flex; flex-direction: column; align-items: center; justify-content: center; width: clamp(150px, 15vw, 210px); aspect-ratio: 1; border-radius: 50%; background: rgba(12,11,15,.45); border: 2px solid var(--gold); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); text-align: center; box-shadow: 0 0 60px -10px rgba(255,208,107,.45); }
+  .count b { font: 600 clamp(56px, 6vw, 88px)/1 'Fraunces Variable', serif; color: var(--gold); font-variant-numeric: tabular-nums; }
+  .count span { margin-top: 6px; padding: 0 14px; font-size: clamp(12px, 1vw, 14px); font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: #ffe2b8; line-height: 1.25; }
+  @media (max-width: 900px) {
+    .count { position: relative; right: auto; bottom: auto; z-index: 2; flex-direction: row; gap: 12px; width: auto; aspect-ratio: auto; border-radius: 18px; margin: 0 max(24px, 5vw) 6vh; padding: 12px 18px; justify-content: flex-start; align-self: flex-start; }
+    .count b { font-size: 52px; }
+    .count span { margin: 0; padding: 0; text-align: left; font-size: 13px; max-width: 12ch; }
+    .hero-txt { padding-bottom: 3vh; }
+  }
+  .meter { position: relative; }
+  .eg-hit { cursor: pointer; outline: none; }
+  .eg-hit:focus-visible { stroke: var(--gold); stroke-width: 2; }
+  .eg-flag { opacity: 0; transform: translateY(14px); transform-box: fill-box; transition: opacity .4s, transform .5s cubic-bezier(.2,1.6,.4,1); }
+  .planted .eg-flag { opacity: 1; transform: none; }
+  .eg-hint { margin-top: 8px; font-size: 13px; color: var(--mute); font-style: italic; }
+  .planted .eg-hint { display: none; }
+  .eg-msg { margin-top: 8px; font: italic 300 22px 'Fraunces Variable', serif; color: var(--gold); min-height: 0; }
+  :global(.confetti) { position: absolute; top: 24%; width: 8px; height: 12px; border-radius: 2px; pointer-events: none; animation: conf 1.6s cubic-bezier(.2,.7,.3,1) forwards; }
+  @keyframes conf { 0% { transform: translate(0,0) rotate(0); opacity: 1; } 60% { opacity: 1; } 100% { transform: translate(var(--x), calc(var(--y) + 260px)) rotate(var(--r)); opacity: 0; } }
+  .alti { position: fixed; right: max(16px, env(safe-area-inset-right)); bottom: max(16px, env(safe-area-inset-bottom)); z-index: 20; display: flex; align-items: center; gap: 10px; padding: 9px 14px 9px 12px; border-radius: 14px; background: rgba(12,11,15,.82); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border: 1px solid rgba(255,208,107,.35); color: var(--gold); opacity: 0; transform: translateY(12px); transition: opacity .4s, transform .4s; pointer-events: none; }
+  .alti.show { opacity: 1; transform: none; }
+  .alti span { display: flex; flex-direction: column; line-height: 1.1; }
+  .alti small { font-size: 10px; letter-spacing: .14em; text-transform: uppercase; color: var(--mute); }
+  .alti b { font: 600 16px 'Inter Variable', sans-serif; color: var(--ink); font-variant-numeric: tabular-nums; }
+  .alti.peak { border-color: var(--gold); box-shadow: 0 0 30px -6px rgba(255,208,107,.6); }
+  .alti.peak b { color: var(--gold); }
+  .foot { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 10px 24px; padding-top: 26px; padding-bottom: 96px; color: var(--mute); font-size: 14px; }
+  .foot a { color: var(--ink); }
+  .foot .gl { color: var(--gold); text-decoration: none; font-weight: 600; }
+  /* scroll reveal: only hidden once the script has started */
+  :global(html.rv-on) .rv { opacity: 0; transform: translateY(28px); transition: opacity .8s ease, transform .8s cubic-bezier(.2,.7,.2,1); transition-delay: var(--d, 0ms); }
+  :global(html.rv-on) .rv.in { opacity: 1; transform: none; }
+  @media (max-width: 900px) {
+    .two { grid-template-columns: 1fr; }
+    .climb-grid { grid-template-columns: 1fr; }
+    .climb-grid .meter { grid-column: 1; grid-row: auto; margin-top: 22px; }
+    .arrows { display: none; }
+    .grid.four { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 560px) {
+    .grid, .grid.four { grid-template-columns: 1fr; }
+    .pole { height: 300px; }
+    .meter .st text { font-size: 21px; }
+    section { padding: 48px 0; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .hero-bg, .cloth { animation: none; }
+  }
+</style>

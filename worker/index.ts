@@ -38,9 +38,29 @@ export default {
         : new Response('WhatsApp is not configured yet.', { status: 503 });
     }
     if (pathname === '/api/contact') return contact(req, env, ctx);
+    if (pathname.endsWith('.mp4')) return video(req, env);
     return env.ASSETS.fetch(req);
   },
 } satisfies ExportedHandler<Env>;
+
+// Static assets ignore Range requests, but Safari only plays video that answers them with 206.
+async function video(req: Request, env: Env): Promise<Response> {
+  const res = await env.ASSETS.fetch(new Request(req.url, { method: 'GET' }));
+  if (!res.ok) return res;
+  const headers = new Headers(res.headers);
+  headers.set('Accept-Ranges', 'bytes');
+  const m = /^bytes=(\d*)-(\d*)$/.exec(req.headers.get('range') ?? '');
+  if (!m) return new Response(req.method === 'HEAD' ? null : res.body, { status: 200, headers });
+  const buf = await res.arrayBuffer();
+  const size = buf.byteLength;
+  let start = m[1] === '' ? size - Number(m[2]) : Number(m[1]);
+  let end = m[1] !== '' && m[2] !== '' ? Number(m[2]) : size - 1;
+  start = Math.max(0, start); end = Math.min(end, size - 1);
+  if (start > end) return new Response(null, { status: 416, headers: { 'Content-Range': `bytes */${size}` } });
+  headers.set('Content-Range', `bytes ${start}-${end}/${size}`);
+  headers.set('Content-Length', String(end - start + 1));
+  return new Response(req.method === 'HEAD' ? null : buf.slice(start, end + 1), { status: 206, headers });
+}
 
 async function contact(req: Request, env: Env, ctx: ExecutionContext) {
   if (req.method !== 'POST') return new Response(JSON.stringify({ ok: false }), { status: 405, headers: { 'Content-Type': 'application/json', Allow: 'POST' } });

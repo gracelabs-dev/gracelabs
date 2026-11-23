@@ -1,0 +1,31 @@
+---
+// Short link for the QR code: /kilimanjaro picks German, Hungarian or English from the browser language.
+import { SITE } from '../data/site';
+---
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Kilimandscharo · Daniel Gergely</title>
+    <link rel="canonical" href={`${SITE.url}/de/kilimanjaro/`} />
+    <link rel="alternate" hreflang="de" href={`${SITE.url}/de/kilimanjaro/`} />
+    <link rel="alternate" hreflang="en" href={`${SITE.url}/en/kilimanjaro/`} />
+    <link rel="alternate" hreflang="hu" href={`${SITE.url}/hu/kilimanjaro/`} />
+    <meta property="og:title" content="Kilimandscharo für Mütter und Babys · Daniel Gergely" />
+    <meta property="og:image" content={`${SITE.url}/kilimanjaro/og.jpg`} />
+    <script is:inline>
+      (function () {
+        var n = navigator.languages || [navigator.language || 'de'], p = 'en';
+        for (var i = 0; i < n.length; i++) {
+          var c = String(n[i] || '').slice(0, 2).toLowerCase();
+          if (c === 'de' || c === 'en' || c === 'hu') { p = c; break; }
+        }
+        location.replace('/' + p + '/kilimanjaro/' + location.hash);
+      })();
+    </script>
+  </head>
+  <body style="background:#08080b;color:#f2efe9;font-family:system-ui,sans-serif">
+    <p><a href="/de/kilimanjaro/" style="color:#ffd06b">Deutsch</a> · <a href="/en/kilimanjaro/" style="color:#ffd06b">English</a> · <a href="/hu/kilimanjaro/" style="color:#ffd06b">Magyar</a></p>
+  </body>
+</html>
