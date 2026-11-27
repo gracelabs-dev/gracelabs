@@ -21,9 +21,13 @@ const daysLeft = Math.max(0, Math.ceil((Date.parse(START) - Date.now()) / 864000
 const date = (d: string) => new Date(d).toLocaleDateString(locale, { day: 'numeric', month: 'long', year: 'numeric' });
 const AMT = data.amount[lang];
 const ft = (chf: number) => (Math.round(chf * data.hufRate / 1000) * 1000).toLocaleString('hu-HU');
-// ?amount= is read by a script on the Muskathlon page; until that is live the hash still lands on the form
-const give = (a = AMT) => `${data.donateUrl}?amount=${a}#event_donation_form`;
+// ?amount= makes the Muskathlon page send the donation form straight to checkout (custom code on that website)
+// the Muskathlon site has no Hungarian, and a Hungarian browser gets German there
+const MUSK = data.donateUrl.replace('.ch/', lang === 'de' ? '.ch/' : '.ch/en_US/');
+const give = (a = AMT) => `${MUSK}?amount=${a}#event_donation_form`;
 const FLAG_CHF = 25, FLAG_M = Math.round(FLAG_CHF * TOP / data.goal);
+const CHIPS = [10, 25, 50, 62, 100];
+const chf = (a: number) => lang === 'hu' ? `${a} CHF` : `CHF ${a}`;
 
 const T = {
   de: {
@@ -35,7 +39,12 @@ const T = {
     cta: 'Jetzt unterstützen', how: 'Wie es funktioniert',
     ctaA: 'Mutter und Baby unterstützen',
     ctaSub: 'CHF 62 sichern einer Mutter und ihrem Baby einen Monat im Überlebensprogramm von Compassion.',
-    hint: (a: number, pre: boolean) => pre ? `CHF ${a} sind schon eingetragen. Fertig in einer Minute.` : 'Weiter geht es auf der Spendenseite von Compassion. Betrag antippen, fertig in einer Minute.',
+    hint: 'Im nächsten Schritt wählst du den Betrag. Bezahlt wird sicher bei Compassion Schweiz.',
+    g: { k: 'Deine Spende', h: 'Wie viel möchtest du geben?', own: 'Eigener Betrag', go: 'Weiter zur Zahlung', min: 'Mindestens CHF 5', month: '1 Monat',
+      note: 'Du landest direkt bei der Zahlung von Compassion Schweiz. Dort gibst du deine Angaben ein.',
+      sponsor: `Lieber eine Patenschaft? Sie zählt mit CHF ${num(1000)} für mein Ziel.`,
+      one: '1 Monat', many: '{n} Monate', line: '≈ {m} im Überlebensprogramm für eine Mutter und ihr Baby.',
+      low: 'CHF 62 sichern einer Mutter und ihrem Baby einen Monat im Überlebensprogramm.', full: 'Das ganze Programm für eine Mutter und ihr Baby (etwa 18 Monate).' },
     meterBtn: (m: number, a: number) => `Flagge ${m} m höher tragen · CHF ${a}`,
     flagBtn: 'Mein Name auf die Flagge', flagSub: 'Ab jeder Spende. Schreib mir danach, wie dein Name auf der Flagge stehen soll.',
     bar: (r: string, g: string) => `CHF ${r} / ${g}`, barDays: 'Tage', barBtn: 'Spenden',
@@ -72,8 +81,8 @@ const T = {
     updP: 'Hier poste ich regelmässig Bilder, Videos und News vom Training und von der Reise.',
     stepsK: 'So funktioniert es', stepsH: 'In fünf Schritten dabei.',
     steps: [
-      ['«Jetzt unterstützen» klicken', 'Du landest direkt beim Spendenformular auf meiner Muskathlon-Seite.'],
-      ['Betrag wählen', 'CHF 10, 25, 50, 100 oder ein eigener Betrag. Jede Spende hilft.'],
+      ['«Mutter und Baby unterstützen» klicken', 'Ein kleines Fenster öffnet sich.'],
+      ['Betrag wählen und bezahlen', 'CHF 10, 25, 50, 62, 100 oder ein eigener Betrag. Danach geht es direkt zur Zahlung bei Compassion.'],
       ['Oder eine Patenschaft', `Auf derselben Seite unter «Patenschaft für ein Kind». Eine Patenschaft (CHF 42 im Monat) zählt mit CHF ${num(1000)} für mein Ziel.`],
       ['Dein Name auf die Flagge', 'Schreib mir kurz, wie dein Name auf der Flagge stehen soll.'],
       ['Gipfelfoto und Video', 'Nach der Reise bekommst du das Foto der Flagge vom Gipfel und mein Highlight-Video.'],
@@ -100,7 +109,12 @@ const T = {
     cta: 'Support now', how: 'How it works',
     ctaA: 'Support a mum and her baby',
     ctaSub: 'CHF 62 keeps a mother and her baby in Compassion\'s survival programme for one month.',
-    hint: (a: number, pre: boolean) => pre ? `CHF ${a} is already filled in. Done in a minute.` : 'You continue on Compassion\'s donation page. Tap an amount, done in a minute.',
+    hint: 'Next you choose the amount. Payment is handled securely by Compassion Switzerland.',
+    g: { k: 'Your donation', h: 'How much would you like to give?', own: 'Your own amount', go: 'Continue to payment', min: 'Minimum CHF 5', month: '1 month',
+      note: 'You go straight to Compassion Switzerland\'s payment page, where you enter your details.',
+      sponsor: `Rather sponsor a child? It counts as CHF ${num(1000)} towards my goal.`,
+      one: '1 month', many: '{n} months', line: '≈ {m} in the survival programme for a mother and her baby.',
+      low: 'CHF 62 keeps a mother and her baby in the survival programme for one month.', full: 'The whole programme for a mother and her baby (about 18 months).' },
     meterBtn: (m: number, a: number) => `Lift the flag ${m} m · CHF ${a}`,
     flagBtn: 'Put my name on the flag', flagSub: 'With any donation. Send me afterwards how your name should appear.',
     bar: (r: string, g: string) => `CHF ${r} / ${g}`, barDays: 'days', barBtn: 'Donate',
@@ -137,8 +151,8 @@ const T = {
     updP: 'I post photos, videos and news from training and from the trip here regularly.',
     stepsK: 'How it works', stepsH: 'Five steps to come along.',
     steps: [
-      ['Click «Support now»', 'You land right at the donation form on my Muskathlon page.'],
-      ['Choose an amount', 'CHF 10, 25, 50, 100 or your own amount. Every donation helps.'],
+      ['Click «Support a mum and her baby»', 'A small window opens.'],
+      ['Choose an amount and pay', 'CHF 10, 25, 50, 62, 100 or your own amount. Then you go straight to Compassion\'s payment page.'],
       ['Or a sponsorship', `On the same page under «Patenschaft für ein Kind». A sponsorship (CHF 42 a month) counts as CHF ${num(1000)} towards my goal.`],
       ['Your name on the flag', 'Send me a short message with how your name should appear on the flag.'],
       ['Summit photo and video', 'After the trip you get the photo of the flag on the summit and my highlight video.'],
@@ -165,7 +179,12 @@ const T = {
     cta: 'Támogatom', how: 'Hogyan működik?',
     ctaA: 'Támogatok egy anyát és a babáját',
     ctaSub: `Már ${FLAG_CHF} CHF (kb. ${ft(FLAG_CHF)} Ft) is segít. 62 CHF (kb. ${ft(62)} Ft) egy teljes hónapig biztosít helyet egy anyának és a babájának a Compassion túlélési programjában.`,
-    hint: (a: number, pre: boolean) => pre ? `${a} CHF (kb. ${ft(a)} Ft) már be van írva. A Compassion svájci oldala angolul nyílik meg, egy perc az egész.` : `A Compassion svájci adományoldala nyílik meg, angolul és svájci frankban. Koppints az összegre, egy perc az egész.`,
+    hint: 'A következő lépésben kiválasztod az összeget. A fizetés biztonságosan, a svájci Compassion angol nyelvű oldalán történik.',
+    g: { k: 'Az adományod', h: 'Mennyivel támogatod?', own: 'Más összeg', go: 'Tovább a fizetéshez', min: 'Legalább 5 CHF', month: '1 hónap',
+      note: 'Egyenesen a svájci Compassion angol nyelvű fizetési oldalára jutsz, ott adod meg az adataidat.',
+      sponsor: `Inkább gyermeket támogatnál? Az ${num(1000)} CHF-nak számít a célomban.`,
+      one: '1 hónap', many: '{n} hónap', line: '≈ {m} egy anyának és a babájának a túlélési programban.',
+      low: '62 CHF egy hónapig biztosít helyet egy anyának és a babájának a túlélési programban.', full: 'Egy anya és a babája teljes programja (kb. 18 hónap).' },
     meterBtn: (m: number, a: number) => `Vidd ${m} méterrel feljebb a zászlót · ${a} CHF`,
     flagBtn: 'Felkerülök a zászlóra', flagSub: 'Bármekkora adománnyal. Utána írd meg, milyen névvel szerepelj a zászlón.',
     bar: (r: string, g: string) => `${r} / ${g} CHF`, barDays: 'nap', barBtn: 'Adományozok',
@@ -202,8 +221,8 @@ const T = {
     updP: 'Itt rendszeresen megosztom a képeket, videókat és híreket az edzésekről és az útról.',
     stepsK: 'Hogyan működik?', stepsH: 'Öt egyszerű lépés.',
     steps: [
-      ['Kattints a „Támogatom” gombra', 'Egyenesen a Muskathlon-oldalam adományozási űrlapjához jutsz.'],
-      ['Válassz összeget', '10, 25, 50, 100 CHF vagy tetszőleges összeg. Minden adomány számít.'],
+      ['Kattints a „Támogatok egy anyát és a babáját” gombra', 'Megnyílik egy kis ablak.'],
+      ['Válassz összeget és fizess', '10, 25, 50, 62, 100 CHF vagy tetszőleges összeg. Utána egyenesen a Compassion fizetési oldalára jutsz.'],
       ['Vagy válaszd a gyermektámogatást', `Ugyanezen az oldalon, a „Patenschaft für ein Kind” résznél. Egy támogatás (havi 42 CHF) ${num(1000)} CHF-nak számít a célomban.`],
       ['Kerüljön fel a neved a zászlóra', 'Írd meg nekem röviden, milyen névvel szerepelj a zászlón.'],
       ['Csúcsfotó és videó', 'Az út után megkapod a zászlóról a csúcson készült fotót és a videómat.'],
@@ -260,7 +279,7 @@ const UPDATES = ((data as { updates?: Update[] }).updates ?? []).map(u => ({ ...
           <a class="btn ghost" href="#what">{T.exH}</a>
         </div>
         <p class="cta-sub">{T.ctaSub}</p>
-        <p class="cta-hint">{T.hint(AMT, data.prefill)}</p>
+        <p class="cta-hint">{T.hint}</p>
         <ul class="facts">{T.facts.map(f => <li>{f}</li>)}</ul>
       </div>
       <div class="count" data-start={START} data-one={T.dayOne} data-many={T.dayMany} data-started={T.started}>
@@ -460,6 +479,27 @@ const UPDATES = ((data as { updates?: Update[] }).updates ?? []).map(u => ({ ...
       <a class="btn primary" href={give()} target="_blank" rel="noopener" tabindex="-1" data-track="donate-bar">{T.barBtn} ↗</a>
     </div>
 
+    <dialog class="give" aria-labelledby="give-h">
+      <form method="dialog" class="give-in">
+        <button class="give-x" aria-label={T.close}>✕</button>
+        <p class="k">{T.g.k}</p>
+        <h2 id="give-h">{T.g.h}</h2>
+        <div class="chips" role="radiogroup" aria-labelledby="give-h">
+          {CHIPS.map(c => (
+            <button type="button" class="chip" role="radio" aria-checked="false" data-a={c}>
+              <b>{chf(c)}</b>{lang === 'hu' ? <small>{ft(c)} Ft</small> : c === 62 && <small>{T.g.month}</small>}
+            </button>
+          ))}
+        </div>
+        <label class="own"><span>{T.g.own}</span><span class={`own-in${lang === 'hu' ? '' : ' pre'}`}>{lang !== 'hu' && 'CHF '}<input type="number" min="5" max="99999" step="1" inputmode="numeric" />{lang === 'hu' && ' CHF'}</span></label>
+        <p class="impact" aria-live="polite"></p>
+        <a class="btn primary go" href={give()} target="_blank" rel="noopener" data-track="go">{T.g.go} ↗</a>
+        <p class="give-note">{T.g.note}</p>
+        <a class="give-alt" href={MUSK} target="_blank" rel="noopener" data-track="sponsor">{T.g.sponsor} ↗</a>
+      </form>
+    </dialog>
+    <script type="application/json" id="give-data" set:html={JSON.stringify({ base: MUSK, def: AMT, hu: lang === 'hu', rate: data.hufRate, g: T.g })}></script>
+
     <div class="alti" aria-hidden="true" data-top={TOP} data-summit={T.summitMsg}>
       <svg viewBox="0 0 24 24" width="18" height="18"><path d="M2 20 L9 8 L13 14 L16 10 L22 20 Z" fill="currentColor" /></svg>
       <span><small>{T.alti}</small><b>0 m</b></span>
@@ -543,6 +583,43 @@ const UPDATES = ((data as { updates?: Update[] }).updates ?? []).map(u => ({ ...
       kili.classList.toggle('bar-on', seen.size === 0);
     });
     document.querySelectorAll('.hero, .end').forEach(s => bo.observe(s));
+  }
+
+  // Amount window: every donate button opens it; "continue" goes to the Muskathlon page, which sends the form on to checkout.
+  const gd = document.querySelector<HTMLDialogElement>('dialog.give');
+  const gdata = document.getElementById('give-data');
+  if (gd && gdata && typeof gd.showModal === 'function') {
+    const cfg = JSON.parse(gdata.textContent!) as { base: string; def: number; hu: boolean; rate: number; g: Record<string, string> };
+    const chips = gd.querySelectorAll<HTMLButtonElement>('.chip');
+    const own = gd.querySelector<HTMLInputElement>('.own input')!;
+    const go = gd.querySelector<HTMLAnchorElement>('.go')!;
+    const impact = gd.querySelector<HTMLElement>('.impact')!;
+    const chf = (a: number) => cfg.hu ? `${a} CHF` : `CHF ${a}`;
+    const ft = (a: number) => (Math.round(a * cfg.rate / 1000) * 1000).toLocaleString('hu-HU');
+    const set = (a: number, typed = false) => {
+      chips.forEach(c => c.setAttribute('aria-checked', String(Number(c.dataset.a) === a)));
+      if (!typed) own.value = [...chips].some(c => Number(c.dataset.a) === a) ? '' : String(a);
+      const ok = Number.isInteger(a) && a >= 5 && a <= 99999;
+      go.classList.toggle('off', !ok);
+      go.setAttribute('aria-disabled', String(!ok));
+      go.href = ok ? `${cfg.base}?amount=${a}` : '#';
+      go.dataset.track = ok ? `go-${a}` : 'none';
+      go.textContent = ok ? `${cfg.g.go} · ${chf(a)} ↗` : cfg.g.min;
+      const m = Math.floor(a / 62);
+      let t = a >= 1200 ? cfg.g.full : m >= 1 ? cfg.g.line.replace('{m}', m === 1 ? cfg.g.one : cfg.g.many.replace('{n}', String(m))) : cfg.g.low;
+      if (cfg.hu && ok) t = `${chf(a)} ≈ ${ft(a)} Ft. ${t}`;
+      impact.textContent = t;
+    };
+    chips.forEach(c => c.addEventListener('click', () => set(Number(c.dataset.a))));
+    own.addEventListener('input', () => set(Math.round(Number(own.value)), true));
+    own.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); go.click(); } });
+    go.addEventListener('click', e => { if (go.classList.contains('off')) { e.preventDefault(); return; } setTimeout(() => gd.close(), 300); });
+    gd.addEventListener('click', e => { if (e.target === gd) gd.close(); });
+    document.querySelectorAll<HTMLAnchorElement>('a[data-track^="donate-"]').forEach(a => a.addEventListener('click', e => {
+      e.preventDefault();
+      set(Number(new URL(a.href).searchParams.get('amount')) || cfg.def);
+      gd.showModal();
+    }));
   }
 
   // Easter egg: three taps on the summit plant the flag.
@@ -721,6 +798,26 @@ const UPDATES = ((data as { updates?: Update[] }).updates ?? []).map(u => ({ ...
   .give-bar small { font-size: 12px; color: var(--mute); }
   .give-bar .btn { padding: 11px 18px; font-size: 15px; }
   .bar-on .give-bar { opacity: 1; transform: none; pointer-events: auto; }
+  .give { padding: 0; border: 0; border-radius: 24px; width: min(460px, calc(100% - 32px)); max-height: calc(100svh - 32px); background: #fbf7ef; color: var(--dark-ink); box-shadow: 0 40px 80px -30px rgba(0,0,0,.6); }
+  .give::backdrop { background: rgba(8,8,11,.6); backdrop-filter: blur(4px); }
+  .give-in { position: relative; display: grid; gap: 14px; padding: 28px 24px 22px; }
+  .give .k { color: #b56a12; margin: 0; }
+  .give h2 { font-size: clamp(26px, 6vw, 32px); line-height: 1.1; margin: 0; padding-right: 40px; }
+  .give-x { position: absolute; top: 14px; right: 14px; width: 36px; height: 36px; border-radius: 50%; border: 0; background: rgba(43,38,34,.08); color: var(--dark-ink); font-size: 15px; cursor: pointer; }
+  .chips { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+  .chip { display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 12px 6px; border-radius: 14px; border: 1.5px solid rgba(43,38,34,.18); background: #fff; color: var(--dark-ink); font: inherit; cursor: pointer; }
+  .chip b { font-size: 17px; font-weight: 600; }
+  .chip small { font-size: 12px; color: var(--dark-mute); }
+  .chip[aria-checked="true"] { border-color: #e58a2e; background: #fff3dc; box-shadow: 0 0 0 3px rgba(255,208,107,.45); }
+  .own { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 10px 14px; border-radius: 14px; border: 1.5px solid rgba(43,38,34,.18); background: #fff; font-size: 15px; color: var(--dark-mute); }
+  .own-in { color: var(--dark-ink); font-weight: 600; white-space: nowrap; }
+  .own-in.pre input { text-align: left; }
+  .own input { width: 84px; border: 0; background: transparent; color: var(--dark-ink); font: inherit; font-weight: 600; text-align: right; outline: none; }
+  .impact { margin: 0; min-height: 3em; font-size: 15px; line-height: 1.45; color: #3d3730; }
+  .go { text-align: center; }
+  .go.off { opacity: .45; }
+  .give-note { margin: 0; font-size: 13px; line-height: 1.45; color: var(--dark-mute); }
+  .give-alt { font-size: 14px; font-weight: 600; color: #b56a12; text-decoration: none; }
   @media (max-width: 640px) {
     .give-bar { right: max(16px, env(safe-area-inset-right)); justify-content: space-between; }
     .bar-on .alti { bottom: calc(max(16px, env(safe-area-inset-bottom)) + 72px); }
