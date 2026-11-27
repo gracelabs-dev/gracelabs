@@ -1,9 +1,12 @@
 {
-  "_note": "Update by hand: raised = amount on the Muskathlon page (CHF), updated = date shown on the page, names = only people who agreed to be shown. updates: newest first; image/video = files in public/kilimanjaro/ (optional). media: gallery items, newest first; files in public/kilimanjaro/media/, type video (with poster) or image; src may be one path or one per language {de,en,hu}.",
-  "donateUrl": "https://muskathlon-kilimanjaro.ch/event/muskathlon-kilimanjaro-2027-4545/daniel-gergely-613#event_donation_form",
+  "_note": "Update by hand: raised = amount on the Muskathlon page (CHF), updated = date shown on the page, names = only people who agreed to be shown. amount = suggested CHF per page language (sent as ?amount=); prefill = true once the Muskathlon page skips to checkout with that amount; hufRate = CHF to HUF for the Hungarian hints. updates: newest first; image/video = files in public/kilimanjaro/ (optional). media: gallery items, newest first; files in public/kilimanjaro/media/, type video (with poster) or image; src may be one path or one per language {de,en,hu}.",
+  "donateUrl": "https://muskathlon-kilimanjaro.ch/event/muskathlon-kilimanjaro-2027-4545/daniel-gergely-613",
+  "amount": { "de": 62, "en": 62, "hu": 25 },
+  "prefill": false,
+  "hufRate": 407,
   "goal": 10000,
-  "raised": 0,
-  "updated": "2026-11-23",
+  "raised": 60,
+  "updated": "2026-11-27",
   "names": [],
   "updates": [
     {

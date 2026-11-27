@@ -19,6 +19,11 @@ const num = (n: number) => lang === 'de' ? n.toLocaleString('de-CH').replace(/�
 const START = '2027-02-19';
 const daysLeft = Math.max(0, Math.ceil((Date.parse(START) - Date.now()) / 86400000));
 const date = (d: string) => new Date(d).toLocaleDateString(locale, { day: 'numeric', month: 'long', year: 'numeric' });
+const AMT = data.amount[lang];
+const ft = (chf: number) => (Math.round(chf * data.hufRate / 1000) * 1000).toLocaleString('hu-HU');
+// ?amount= is read by a script on the Muskathlon page; until that is live the hash still lands on the form
+const give = (a = AMT) => `${data.donateUrl}?amount=${a}#event_donation_form`;
+const FLAG_CHF = 25, FLAG_M = Math.round(FLAG_CHF * TOP / data.goal);
 
 const T = {
   de: {
@@ -28,6 +33,18 @@ const T = {
     h1: 'Ich steige für Mütter und Babys in Tansania.',
     sub: 'Komm mit auf diesen Weg.',
     cta: 'Jetzt unterstützen', how: 'Wie es funktioniert',
+    ctaA: 'Mutter und Baby unterstützen',
+    ctaSub: 'CHF 62 sichern einer Mutter und ihrem Baby einen Monat im Überlebensprogramm von Compassion.',
+    hint: (a: number, pre: boolean) => pre ? `CHF ${a} sind schon eingetragen. Fertig in einer Minute.` : 'Weiter geht es auf der Spendenseite von Compassion. Betrag antippen, fertig in einer Minute.',
+    meterBtn: (m: number, a: number) => `Flagge ${m} m höher tragen · CHF ${a}`,
+    flagBtn: 'Mein Name auf die Flagge', flagSub: 'Ab jeder Spende. Schreib mir danach, wie dein Name auf der Flagge stehen soll.',
+    bar: (r: string, g: string) => `CHF ${r} / ${g}`, barDays: 'Tage', barBtn: 'Spenden',
+    exK: 'Kurz erklärt', exH: 'Worum geht es hier?',
+    ex: [
+      ['Was ist ein Muskathlon?', `Eine harte Sport-Challenge an einem besonderen Ort, für einen guten Zweck. Organisiert vom christlichen Verein 4M Switzerland. Alle Teilnehmenden sammeln Spenden, das Ziel ist CHF ${num(10000)} pro Person.`],
+      ['Wohin geht das Geld?', 'An das Überlebensprogramm von Compassion für Mütter und Babys: medizinische Begleitung in Schwangerschaft, Geburt und im ersten Lebensjahr, gutes Essen, Begleitung und eine Ausbildung, damit die Mütter später selbst Geld verdienen.'],
+      ['Wer ist Compassion?', 'Ein christliches Hilfswerk, das seit 1952 Kinder aus der Armut befreit. Es arbeitet nur mit lokalen Kirchen, in 29 Ländern, mit über 2 Millionen Kindern. Geholfen wird allen, unabhängig vom Glauben.'],
+    ],
     facts: ['Machame-Route', '7 Tage', '63 km', `${num(TOP)} m`],
     whyK: 'Warum', whyH: 'Ein guter Start ins Leben.',
     why: [
@@ -81,6 +98,18 @@ const T = {
     h1: 'I am climbing for mothers and babies in Tanzania.',
     sub: 'Come along on this journey.',
     cta: 'Support now', how: 'How it works',
+    ctaA: 'Support a mum and her baby',
+    ctaSub: 'CHF 62 keeps a mother and her baby in Compassion\'s survival programme for one month.',
+    hint: (a: number, pre: boolean) => pre ? `CHF ${a} is already filled in. Done in a minute.` : 'You continue on Compassion\'s donation page. Tap an amount, done in a minute.',
+    meterBtn: (m: number, a: number) => `Lift the flag ${m} m · CHF ${a}`,
+    flagBtn: 'Put my name on the flag', flagSub: 'With any donation. Send me afterwards how your name should appear.',
+    bar: (r: string, g: string) => `CHF ${r} / ${g}`, barDays: 'days', barBtn: 'Donate',
+    exK: 'In short', exH: 'What is this all about?',
+    ex: [
+      ['What is a Muskathlon?', `A tough sports challenge in a special place, for a good cause. Organised by the Christian association 4M Switzerland. Every participant raises donations, with a goal of CHF ${num(10000)} each.`],
+      ['Where does the money go?', 'To Compassion\'s survival programme for mothers and babies: medical care during pregnancy, birth and the baby\'s first year, nutritious food, support, and training so the mothers can earn a living later.'],
+      ['Who is Compassion?', 'A Christian charity that has been releasing children from poverty since 1952. It works only through local churches, in 29 countries, with more than 2 million children. Help is given to everyone, whatever their faith.'],
+    ],
     facts: ['Machame route', '7 days', '63 km', `${num(TOP)} m`],
     whyK: 'Why', whyH: 'A good start in life.',
     why: [
@@ -134,6 +163,18 @@ const T = {
     h1: 'Tanzániai édesanyákért és babákért mászom meg a Kilimandzsárót.',
     sub: 'Tarts velem ezen az úton!',
     cta: 'Támogatom', how: 'Hogyan működik?',
+    ctaA: 'Támogatok egy anyát és a babáját',
+    ctaSub: `Már ${FLAG_CHF} CHF (kb. ${ft(FLAG_CHF)} Ft) is segít. 62 CHF (kb. ${ft(62)} Ft) egy teljes hónapig biztosít helyet egy anyának és a babájának a Compassion túlélési programjában.`,
+    hint: (a: number, pre: boolean) => pre ? `${a} CHF (kb. ${ft(a)} Ft) már be van írva. A Compassion svájci oldala angolul nyílik meg, egy perc az egész.` : `A Compassion svájci adományoldala nyílik meg, angolul és svájci frankban. Koppints az összegre, egy perc az egész.`,
+    meterBtn: (m: number, a: number) => `Vidd ${m} méterrel feljebb a zászlót · ${a} CHF`,
+    flagBtn: 'Felkerülök a zászlóra', flagSub: 'Bármekkora adománnyal. Utána írd meg, milyen névvel szerepelj a zászlón.',
+    bar: (r: string, g: string) => `${r} / ${g} CHF`, barDays: 'nap', barBtn: 'Adományozok',
+    exK: 'Röviden', exH: 'Miről szól ez az egész?',
+    ex: [
+      ['Mi az a Muskathlon?', `Egy kemény sportkihívás egy különleges helyen, egy jó ügyért. A svájci 4M keresztény egyesület szervezi. Minden résztvevő adományt gyűjt, a cél fejenként ${num(10000)} CHF (kb. ${Math.round(10000 * data.hufRate / 1e6)} millió Ft).`],
+      ['Hová kerül a pénz?', 'A Compassion anya–baba túlélési programjához: orvosi kíséret a várandósság, a szülés és a baba első éve alatt, tápláló étel, támogatás és szakmai képzés, hogy az anyák később maguk is el tudják tartani a családjukat.'],
+      ['Ki az a Compassion?', 'Egy keresztény segélyszervezet, amely 1952 óta segít gyerekeket kiemelni a szegénységből. Kizárólag helyi gyülekezeteken keresztül dolgozik, 29 országban, több mint 2 millió gyerekkel. Mindenkinek segít, vallástól függetlenül.'],
+    ],
     facts: ['Machame-útvonal', '7 nap', '63 km', `${num(TOP)} m`],
     whyK: 'Miért', whyH: 'Esély egy jó kezdetre.',
     why: [
@@ -215,9 +256,11 @@ const UPDATES = ((data as { updates?: Update[] }).updates ?? []).map(u => ({ ...
         <h1>{T.h1}</h1>
         <p class="sub">{T.sub}</p>
         <div class="btns">
-          <a class="btn primary" href={data.donateUrl} target="_blank" rel="noopener">{T.cta} ↗</a>
-          <a class="btn ghost" href="#how">{T.how}</a>
+          <a class="btn primary" href={give()} target="_blank" rel="noopener" data-track="donate-hero">{T.ctaA} ↗</a>
+          <a class="btn ghost" href="#what">{T.exH}</a>
         </div>
+        <p class="cta-sub">{T.ctaSub}</p>
+        <p class="cta-hint">{T.hint(AMT, data.prefill)}</p>
         <ul class="facts">{T.facts.map(f => <li>{f}</li>)}</ul>
       </div>
       <div class="count" data-start={START} data-one={T.dayOne} data-many={T.dayMany} data-started={T.started}>
@@ -225,6 +268,16 @@ const UPDATES = ((data as { updates?: Update[] }).updates ?? []).map(u => ({ ...
         <span>{daysLeft > 0 ? (daysLeft === 1 ? T.dayOne : T.dayMany) : T.started}</span>
       </div>
     </header>
+
+    <section class="light explain" id="what">
+      <div class="wrap">
+        <p class="k rv">{T.exK}</p>
+        <h2 class="rv">{T.exH}</h2>
+        <div class="grid three">
+          {T.ex.map(([h, p], i) => <div class="card rv" style={`--d:${i * 90}ms`}><h3>{h}</h3><p>{p}</p></div>)}
+        </div>
+      </div>
+    </section>
 
     <section class="light">
       <div class="wrap two">
@@ -261,6 +314,7 @@ const UPDATES = ((data as { updates?: Update[] }).updates ?? []).map(u => ({ ...
             <figcaption>
               <b>{T.raisedLine(num(data.raised), num(data.goal))}</b>
               <small>{pct > 0 ? `${T.height} ${num(alt)} m · ` : ''}{T.asOf} {date(data.updated)}</small>
+              <a class="btn primary meter-btn" href={give(FLAG_CHF)} target="_blank" rel="noopener" data-track="donate-meter">{T.meterBtn(FLAG_M, FLAG_CHF)} ↗</a>
             </figcaption>
           </figure>
         </div>
@@ -335,7 +389,7 @@ const UPDATES = ((data as { updates?: Update[] }).updates ?? []).map(u => ({ ...
         <div class="rv">
           <p class="k">{T.stepsK}</p>
           <h2>{T.stepsH}</h2>
-          <a class="btn primary" href={data.donateUrl} target="_blank" rel="noopener">{T.cta} ↗</a>
+          <a class="btn primary" href={give()} target="_blank" rel="noopener" data-track="donate-steps">{T.ctaA} ↗</a>
         </div>
         <ol class="steps rv">
           {T.steps.map(([h, p], i) => (
@@ -358,7 +412,8 @@ const UPDATES = ((data as { updates?: Update[] }).updates ?? []).map(u => ({ ...
           <p class="k">{T.flagK}</p>
           <h2>{T.flagH}</h2>
           <p class="body">{T.flagP}</p>
-          <p class="note">{T.flagNote}</p>
+          <a class="btn primary" href={give()} target="_blank" rel="noopener" data-track="donate-flag">{T.flagBtn} ↗</a>
+          <p class="note">{T.flagSub} {T.flagNote}</p>
         </div>
         <div class="cloth-wrap rv">
           <div class="pole"></div>
@@ -396,9 +451,14 @@ const UPDATES = ((data as { updates?: Update[] }).updates ?? []).map(u => ({ ...
       <div class="end-bg" aria-hidden="true"></div>
       <div class="wrap rv">
         <h2>{T.endH}</h2>
-        <a class="btn primary" href={data.donateUrl} target="_blank" rel="noopener">{T.cta} ↗</a>
+        <a class="btn primary" href={give()} target="_blank" rel="noopener" data-track="donate-end">{T.ctaA} ↗</a>
       </div>
     </section>
+
+    <div class="give-bar" aria-hidden="true">
+      <span><b>{T.bar(num(data.raised), num(data.goal))}</b><small class="bar-days" data-start={START}>{daysLeft} {T.barDays}</small></span>
+      <a class="btn primary" href={give()} target="_blank" rel="noopener" tabindex="-1" data-track="donate-bar">{T.barBtn} ↗</a>
+    </div>
 
     <div class="alti" aria-hidden="true" data-top={TOP} data-summit={T.summitMsg}>
       <svg viewBox="0 0 24 24" width="18" height="18"><path d="M2 20 L9 8 L13 14 L16 10 L22 20 Z" fill="currentColor" /></svg>
@@ -468,6 +528,21 @@ const UPDATES = ((data as { updates?: Update[] }).updates ?? []).map(u => ({ ...
     };
     addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
     update();
+  }
+
+  // Donate bar: shown after the hero, hidden while the hero or the closing section is on screen.
+  const bar = document.querySelector<HTMLElement>('.give-bar');
+  const kili = document.querySelector<HTMLElement>('.kili');
+  if (bar && kili && 'IntersectionObserver' in window) {
+    const days = bar.querySelector<HTMLElement>('.bar-days')!;
+    const left = Math.max(0, Math.ceil((Date.parse(days.dataset.start!) - Date.now()) / 86400000));
+    days.textContent = days.textContent!.replace(/^\d+/, String(left));
+    const seen = new Set<Element>();
+    const bo = new IntersectionObserver(entries => {
+      entries.forEach(en => en.isIntersecting ? seen.add(en.target) : seen.delete(en.target));
+      kili.classList.toggle('bar-on', seen.size === 0);
+    });
+    document.querySelectorAll('.hero, .end').forEach(s => bo.observe(s));
   }
 
   // Easter egg: three taps on the summit plant the flag.
@@ -633,6 +708,24 @@ const UPDATES = ((data as { updates?: Update[] }).updates ?? []).map(u => ({ ...
   .btn:hover { transform: translateY(-2px); }
   .btn.primary { background: var(--gold); color: #1a1208; box-shadow: 0 10px 30px -10px rgba(255,208,107,.6); }
   .btn.ghost { border: 1px solid rgba(255,255,255,.5); color: #fff; background: rgba(0,0,0,.15); backdrop-filter: blur(6px); }
+  .cta-sub { margin: 16px 0 0; max-width: 46ch; font-size: 15px; line-height: 1.5; color: #fff; text-shadow: 0 1px 12px rgba(0,0,0,.5); }
+  .cta-hint { margin: 6px 0 0; max-width: 52ch; font-size: 13px; line-height: 1.5; color: #e6e0d6; text-shadow: 0 1px 12px rgba(0,0,0,.5); }
+  .explain .card h3 { font-size: 21px; }
+  .grid.three { grid-template-columns: repeat(3, 1fr); }
+  @media (max-width: 900px) { .grid.three { grid-template-columns: 1fr; } }
+  .meter-btn { display: table; margin-top: 14px; }
+  #flag .btn { margin-top: 8px; }
+  .give-bar { position: fixed; left: max(16px, env(safe-area-inset-left)); bottom: max(16px, env(safe-area-inset-bottom)); z-index: 21; display: flex; align-items: center; gap: 14px; padding: 8px 8px 8px 16px; border-radius: 99px; background: rgba(12,11,15,.88); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border: 1px solid rgba(255,208,107,.35); color: var(--ink); opacity: 0; transform: translateY(16px); transition: opacity .35s, transform .35s; pointer-events: none; }
+  .give-bar span { display: flex; flex-direction: column; line-height: 1.15; }
+  .give-bar b { font: 600 15px 'Inter Variable', sans-serif; color: var(--gold); font-variant-numeric: tabular-nums; }
+  .give-bar small { font-size: 12px; color: var(--mute); }
+  .give-bar .btn { padding: 11px 18px; font-size: 15px; }
+  .bar-on .give-bar { opacity: 1; transform: none; pointer-events: auto; }
+  @media (max-width: 640px) {
+    .give-bar { right: max(16px, env(safe-area-inset-right)); justify-content: space-between; }
+    .bar-on .alti { bottom: calc(max(16px, env(safe-area-inset-bottom)) + 72px); }
+    .bar-on .toast { bottom: 150px; }
+  }
   .facts { list-style: none; padding: 0; margin: 34px 0 0; display: flex; gap: 8px; flex-wrap: wrap; }
   .facts li { padding: 7px 14px; border-radius: 99px; border: 1px solid rgba(255,255,255,.35); background: rgba(0,0,0,.25); backdrop-filter: blur(6px); font-size: 14px; }
   .pic { margin: 0; border-radius: 22px; overflow: hidden; aspect-ratio: 4 / 3; box-shadow: 0 30px 60px -30px rgba(43,38,34,.5); }

@@ -21,7 +21,7 @@ import { SITE } from '../data/site';
           var c = String(n[i] || '').slice(0, 2).toLowerCase();
           if (c === 'de' || c === 'en' || c === 'hu') { p = c; break; }
         }
-        location.replace('/' + p + '/kilimanjaro/' + location.hash);
+        location.replace('/' + p + '/kilimanjaro/' + location.search + location.hash);
       })();
     </script>
   </head>
